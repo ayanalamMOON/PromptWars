@@ -1,0 +1,26 @@
+{
+    "name": "promptwars-windows-standalone",
+    "version": "1.0.0",
+    "private": true,
+    "description": "Windows standalone launcher for PromptWars runtime",
+    "type": "commonjs",
+    "scripts": {
+        "build:launcher": "pkg src/launcher.cjs --targets node18-win-x64 --output dist/PromptWars_Windows/PromptWars_Launcher.exe",
+        "verify:runtime": "node scripts/verify-runtime.mjs",
+        "build": "npm run verify:runtime && npm run build:launcher",
+        "build:uninstaller": "node scripts/build-uninstaller.mjs",
+        "build:installer": "npm run build && npm run build:uninstaller && node scripts/build-installer.mjs",
+        "installer": "node scripts/build-installer.mjs",
+        "uninstaller": "node scripts/build-uninstaller.mjs"
+    },
+    "bin": "src/launcher.cjs",
+    "pkg": {
+        "assets": [
+            "dist/PromptWars_Windows/runtime/**/*"
+        ]
+    },
+    "devDependencies": {
+        "makensis": "^3.0.3",
+        "pkg": "^5.8.1"
+    }
+}

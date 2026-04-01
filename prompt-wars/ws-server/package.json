@@ -1,0 +1,20 @@
+{
+    "name": "prompt-wars-ws",
+    "version": "0.1.0",
+    "private": true,
+    "scripts": {
+        "dev": "ts-node-dev --respawn src/index.ts",
+        "build": "tsc",
+        "start": "node dist/index.js"
+    },
+    "dependencies": {
+        "ioredis": "^5.4.2",
+        "socket.io": "^4.8.1"
+    },
+    "devDependencies": {
+        "@types/node": "^20.17.12",
+        "ts-node": "^10.9.2",
+        "ts-node-dev": "^2.0.0",
+        "typescript": "^5.7.3"
+    }
+}

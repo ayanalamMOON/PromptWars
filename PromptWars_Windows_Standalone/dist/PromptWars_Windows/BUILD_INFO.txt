@@ -1,0 +1,2 @@
+PromptWars Windows runtime prepared successfully.
+Built at: 2026-03-13T07:54:08.059Z

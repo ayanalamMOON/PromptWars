@@ -1,0 +1,53 @@
+{
+  "pages": {
+    "/_not-found/page": [
+      "static/chunks/webpack-85d530dc640e50c4.js",
+      "static/chunks/fd9d1056-b11b2651f33aae7f.js",
+      "static/chunks/117-01321ce361c96b2b.js",
+      "static/chunks/main-app-5567c29872e635a0.js",
+      "static/chunks/app/_not-found/page-221ef7203edcd7a2.js"
+    ],
+    "/layout": [
+      "static/chunks/webpack-85d530dc640e50c4.js",
+      "static/chunks/fd9d1056-b11b2651f33aae7f.js",
+      "static/chunks/117-01321ce361c96b2b.js",
+      "static/chunks/main-app-5567c29872e635a0.js",
+      "static/css/13a4380b6a4f2a34.css",
+      "static/chunks/app/layout-eb8731650b18fe10.js"
+    ],
+    "/master/page": [
+      "static/chunks/webpack-85d530dc640e50c4.js",
+      "static/chunks/fd9d1056-b11b2651f33aae7f.js",
+      "static/chunks/117-01321ce361c96b2b.js",
+      "static/chunks/main-app-5567c29872e635a0.js",
+      "static/chunks/777-3347a6e4d4d7c42d.js",
+      "static/chunks/55-27197c2c2900797f.js",
+      "static/chunks/app/master/page-6b70b3a21d5583e6.js"
+    ],
+    "/page": [
+      "static/chunks/webpack-85d530dc640e50c4.js",
+      "static/chunks/fd9d1056-b11b2651f33aae7f.js",
+      "static/chunks/117-01321ce361c96b2b.js",
+      "static/chunks/main-app-5567c29872e635a0.js",
+      "static/chunks/777-3347a6e4d4d7c42d.js",
+      "static/chunks/app/page-65ee8b25a0a8f07e.js"
+    ],
+    "/rules/page": [
+      "static/chunks/webpack-85d530dc640e50c4.js",
+      "static/chunks/fd9d1056-b11b2651f33aae7f.js",
+      "static/chunks/117-01321ce361c96b2b.js",
+      "static/chunks/main-app-5567c29872e635a0.js",
+      "static/chunks/777-3347a6e4d4d7c42d.js",
+      "static/chunks/app/rules/page-87db3cec9bf1cf72.js"
+    ],
+    "/participant/[role]/page": [
+      "static/chunks/webpack-85d530dc640e50c4.js",
+      "static/chunks/fd9d1056-b11b2651f33aae7f.js",
+      "static/chunks/117-01321ce361c96b2b.js",
+      "static/chunks/main-app-5567c29872e635a0.js",
+      "static/chunks/777-3347a6e4d4d7c42d.js",
+      "static/chunks/210-b50d3d034c162624.js",
+      "static/chunks/app/participant/[role]/page-f00f009f22f46098.js"
+    ]
+  }
+}

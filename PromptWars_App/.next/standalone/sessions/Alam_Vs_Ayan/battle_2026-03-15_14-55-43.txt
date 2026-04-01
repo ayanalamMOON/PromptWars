@@ -1,0 +1,62 @@
+==========================================================
+  PROMPT WARS — BATTLE RECORD
+==========================================================
+
+  Session ID  : 48538c31-dcb5-4595-80b3-643cb223709f
+  Field       : mix
+  Time Limit  : 3 min
+  Date        : 3/15/2026, 2:55:43 PM
+  Duration    : 1m 1s
+  Status      : complete
+
+----------------------------------------------------------
+  PROBLEM STATEMENT
+----------------------------------------------------------
+
+Design a pharmacovigilance plan for a newly approved biologic therapy for rheumatoid arthritis. Cover adverse-event reporting, risk minimisation, and post-marketing surveillance timelines.
+
+==========================================================
+  PARTICIPANT A — Alam
+==========================================================
+
+  Connected : true
+  Submitted : false
+
+--- System Prompt ---
+(empty)
+
+--- User Prompt ---
+(empty)
+
+--- AI Output ---
+(no output)
+
+==========================================================
+  PARTICIPANT B — Ayan
+==========================================================
+
+  Connected : true
+  Submitted : true
+
+--- System Prompt ---
+You are engineer do as asked
+
+--- User Prompt ---
+Provide a solution
+
+--- AI Output ---
+(no output)
+
+==========================================================
+  VERDICT
+==========================================================
+
+  Winner      : Participant A (Alam)
+  Score A     : 100 / 100
+  Score B     : 0 / 100
+--- Justification ---
+Participant B was DISQUALIFIED for off-topic/random prompt submission: Prompt is too short and not specific enough to the problem statement. (relevance score: 0/100). Participant A wins by default.
+
+==========================================================
+  END OF BATTLE RECORD
+==========================================================

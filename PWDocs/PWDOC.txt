@@ -1,0 +1,1552 @@
+
+
+PromptWars_Platform_Management_Brief.pdf
+PDF
+
+PromptWars_Dev_Plan.pdf
+PDF
+based on this plans create a detailed blueprint and procedure for creation of this plantform in the chat detaile plan and with the directory sturcture
+
+You already have two very strong documents:
+
+Platform Overview (management) — explains what the system does and why 
+PromptWars_Platform_Management_…
+
+
+Developer Build Guide — explains how to build it technically 
+PromptWars_Dev_Plan
+
+
+What you asked for is essentially the engineering blueprint that converts those documents into an executable development plan.
+
+Below is a full technical blueprint, with:
+
+System architecture
+
+Detailed development procedure
+
+Complete directory structure
+
+Backend + frontend flow
+
+Infrastructure pipeline
+
+Deployment plan
+
+Event-day runtime architecture
+
+Think of this as the actual engineering playbook to build Prompt Wars from zero to production.
+
+PROMPT WARS PLATFORM
+Complete Engineering Blueprint
+1. System Overview
+The platform is a real-time tournament engine for prompt battles.
+
+Participants compete by writing prompts that control an AI model.
+
+The system automatically:
+
+manages matches
+
+streams AI outputs
+
+evaluates results using an AI judge
+
+updates tournament brackets in real time.
+
+The architecture is event-driven and real-time.
+
+Core components:
+
+Participants (Browser)
+        │
+        │
+Next.js Frontend
+        │
+        │ REST API
+        ▼
+Next.js Server (API Routes)
+        │
+        │ Pub/Sub
+        ▼
+Redis
+        │
+        │
+WebSocket Server (Socket.IO)
+        │
+        ▼
+Clients (live updates)
+External systems:
+
+Groq API (Battle AI)
+Google Gemini (Judge AI)
+OpenRouter (Fallback judge)
+MongoDB Atlas (database)
+Upstash Redis (cache/pubsub)
+Vercel (frontend hosting)
+Railway (WebSocket hosting)
+Cloudflare (DNS/CDN)
+The platform handles:
+
+50 players
+
+49 matches
+
+6 simultaneous matches
+
+real-time output streaming
+
+This is explicitly described in the project plan. 
+PromptWars_Dev_Plan
+
+
+2. High Level Architecture
+Layer 1 — Presentation Layer
+Frontend UI:
+
+Next.js 14
+
+Responsible for:
+
+battle interface
+
+prompt editor
+
+bracket display
+
+spectator view
+
+admin console
+
+Layer 2 — API Layer
+Next.js API routes
+
+Handles:
+
+player registration
+
+prompt submission
+
+bracket generation
+
+AI execution
+
+judging
+
+Layer 3 — Real-time Layer
+Standalone WebSocket server.
+
+Responsibilities:
+
+match timers
+
+token streaming
+
+bracket updates
+
+spectator sync
+
+Layer 4 — Data Layer
+Database:
+
+MongoDB Atlas
+
+Stores:
+
+Users
+Matches
+Tournament
+Problems
+Prompts
+Outputs
+Verdicts
+Logs
+Layer 5 — AI Layer
+Two independent AI systems:
+
+Battle AI
+
+Llama-3.3-70B
+Groq inference
+Judge AI
+
+Gemini 2.0 Flash
+Fallback GPT-4o-mini
+Both are isolated for fairness. 
+PromptWars_Platform_Management_…
+
+
+3. Complete Project Directory Structure
+Root repository:
+
+prompt-wars/
+Root
+prompt-wars/
+│
+├── app/
+├── components/
+├── lib/
+├── ws-server/
+├── public/
+├── scripts/
+├── tests/
+├── .github/
+│
+├── package.json
+├── tsconfig.json
+├── tailwind.config.ts
+├── next.config.mjs
+└── README.md
+Frontend Application
+app/
+app/
+│
+├── page.tsx
+├── layout.tsx
+├── globals.css
+│
+├── register/
+│   └── page.tsx
+│
+├── bracket/
+│   └── page.tsx
+│
+├── spectate/
+│   └── page.tsx
+│
+├── leaderboard/
+│   └── page.tsx
+│
+├── station/
+│   └── [id]/
+│        └── page.tsx
+│
+├── arena/
+│   └── [matchId]/
+│        └── page.tsx
+│
+├── dashboard/
+│   └── page.tsx
+│
+├── admin/
+│   ├── page.tsx
+│   ├── match/
+│   │   └── [id]/page.tsx
+│   └── problems/
+│        └── page.tsx
+│
+├── analytics/
+│   └── page.tsx
+│
+└── api/
+API Routes
+app/api/
+api/
+│
+├── health/
+│    └── route.ts
+│
+├── station/
+│    ├── assign/
+│    │    └── route.ts
+│    ├── checkin/
+│    │    └── route.ts
+│    └── [id]/
+│         └── session/route.ts
+│
+├── tournament/
+│    ├── bracket/route.ts
+│    ├── generate/route.ts
+│    └── advance/route.ts
+│
+├── match/
+│    └── [id]/
+│        ├── route.ts
+│        ├── submit/route.ts
+│        ├── test/route.ts
+│        ├── execute/route.ts
+│        ├── judge/route.ts
+│        └── override/route.ts
+│
+├── admin/
+│    ├── problem/route.ts
+│    ├── reveal/route.ts
+│    └── poison/route.ts
+│
+└── analytics/
+     └── export/route.ts
+Components
+components/
+components/
+│
+├── arena/
+│   ├── BattleRoom.tsx
+│   ├── PromptEditor.tsx
+│   ├── OutputViewer.tsx
+│   ├── CountdownTimer.tsx
+│   └── VerdictOverlay.tsx
+│
+├── bracket/
+│   ├── BracketTree.tsx
+│   └── MatchCard.tsx
+│
+├── spectator/
+│   ├── SpectatorGrid.tsx
+│   └── SpotlightMatch.tsx
+│
+├── admin/
+│   ├── WaveControlPanel.tsx
+│   ├── ProblemRevealBtn.tsx
+│   ├── PoisonPillTrigger.tsx
+│   └── OverridePanel.tsx
+│
+└── shared/
+    ├── PlayerTag.tsx
+    ├── ScoreBar.tsx
+    └── LoadingSpinner.tsx
+Backend Libraries
+lib/
+lib/
+│
+├── db/
+│   ├── connection.ts
+│   └── models/
+│        ├── User.ts
+│        ├── Match.ts
+│        ├── Tournament.ts
+│        └── Problem.ts
+│
+├── services/
+│   ├── tournament.ts
+│   ├── inference.ts
+│   ├── judge.ts
+│   ├── timer.ts
+│   └── station.ts
+│
+├── redis.ts
+├── session.ts
+│
+├── schemas/
+│   ├── match.schema.ts
+│   ├── verdict.schema.ts
+│   └── tournament.schema.ts
+│
+└── hooks/
+    ├── useSocket.ts
+    ├── useTimer.ts
+    └── useMatchState.ts
+WebSocket Server
+ws-server/
+ws-server/
+│
+├── src/
+│   ├── index.ts
+│   ├── handlers/
+│   │    ├── matchEvents.ts
+│   │    ├── timerEvents.ts
+│   │    └── adminEvents.ts
+│   │
+│   └── redisSubscriber.ts
+│
+├── package.json
+└── tsconfig.json
+4. Development Procedure
+The correct order of development is critical.
+
+The official plan defines 7 phases of development. 
+PromptWars_Dev_Plan
+
+
+Phase 0 — Foundation
+Duration:
+
+Day 1-2
+Tasks:
+
+Create Next.js project
+
+Configure TypeScript
+
+Setup MongoDB
+
+Setup Redis
+
+Create database models
+
+Setup CI/CD pipeline
+
+Create WebSocket skeleton
+
+Goal:
+
+/api/health returns 200
+database connected
+ws server running
+Phase 1 — Tournament Engine
+Duration:
+
+Day 2-4
+Implement core tournament logic.
+
+Functions:
+
+generateBracket()
+advanceWinner()
+computeWaves()
+getCurrentWave()
+Algorithm used:
+
+Fisher-Yates shuffle
+Single elimination bracket
+Bye distribution
+Phase 2 — Station Authentication
+Goal:
+
+Players login by computer station.
+
+Example:
+
+Station S1-A
+Station S1-B
+Station S2-A
+Admin assigns player → station.
+
+No passwords required.
+
+Phase 3 — AI Integration
+Implement AI pipeline.
+
+Battle AI:
+
+Groq Llama-3.3-70B
+Judge AI:
+
+Gemini 2.0 Flash
+Fallback:
+
+GPT-4o-mini
+Important constraints:
+
+temperature = 0.7
+max_tokens = 2048
+top_p = 0.9
+These are locked for fairness.
+
+Phase 4 — Battle Room
+Build main UI.
+
+Features:
+
+Prompt editor
+Timer
+Test run button
+Output streaming
+Submission button
+Verdict display
+Streaming:
+
+WebSocket tokens
+Phase 5 — Game Master Console
+Admin control panel.
+
+Features:
+
+Start wave
+Reveal problem
+Inject poison pill
+Override verdict
+Monitor health
+Phase 6 — Spectator Mode
+Audience can watch matches live.
+
+Features:
+
+Live output streaming
+Bracket updates
+Leaderboard
+Phase 7 — Analytics
+Post-event analytics.
+
+Charts:
+
+Score distribution
+Prompt length vs score
+Upset rate
+Champion prompt history
+5. Match Execution Flow
+A full match takes 20 minutes. 
+PromptWars_Platform_Management_…
+
+
+Step 1 — Problem Reveal
+Game master sends event:
+
+problem:reveal
+Players see problem.
+
+Timer begins.
+
+Step 2 — Prompt Engineering
+Players write prompts.
+
+Allowed:
+
+5 test runs
+Saved in database.
+
+Step 3 — Execution
+Both prompts executed simultaneously.
+
+API call:
+
+POST /match/:id/execute
+Outputs streamed live.
+
+Step 4 — Judging
+Judge AI receives:
+
+problem
+output A
+output B
+Returns JSON:
+
+{
+winner: "A",
+score_a: 82,
+score_b: 64,
+justification: "..."
+}
+Step 5 — Bracket Update
+Winner advanced automatically.
+
+Event broadcast:
+
+bracket:update
+6. WebSocket Event System
+Main events:
+
+join:match
+problem:reveal
+timer:tick
+prompt:test
+prompt:submit
+execution:start
+output:stream
+verdict:announce
+bracket:update
+poison:inject
+7. Database Schema
+Core models:
+
+User
+Match
+Tournament
+Problem
+Example:
+
+User
+
+{
+ battle_tag
+ university_id
+ role
+ station
+ wins
+ avgScore
+}
+Match
+
+{
+ round
+ playerA
+ playerB
+ promptA
+ promptB
+ outputA
+ outputB
+ verdict
+}
+8. Deployment Architecture
+Frontend
+
+Vercel
+Backend
+
+Railway
+Database
+
+MongoDB Atlas
+Cache
+
+Upstash Redis
+Security
+
+Cloudflare
+9. Event Day Runtime Architecture
+During the event:
+
+12 station computers
+6 matches running simultaneously
+Real-time pipeline:
+
+Player Prompt
+      ↓
+Next.js API
+      ↓
+Groq AI
+      ↓
+WebSocket streaming
+      ↓
+Judge AI
+      ↓
+Bracket update
+The entire event is automated.
+
+Final Thought
+From a system design perspective, this platform is essentially a real-time distributed competition engine.
+
+It combines:
+
+real-time multiplayer systems
+
+LLM orchestration
+
+tournament bracket algorithms
+
+event streaming architecture
+
+Which makes it a very impressive hackathon infrastructure project, not just an event website.
+
+If you want, I can also show you:
+
+1. The full system architecture diagram (very detailed)
+2. Database schema diagrams
+3. Complete backend code skeleton (ready to implement)
+4. How to build this entire platform in ~2000 lines of code
+
+Those would make the project much easier to implement.
+
+
+Sources
+
+create a for thorugh plan for the file and folder creation that i will assign to my coding agent
+
+
+Thought for a few seconds
+Nice — I'll give you a forensic, assignable blueprint your coding agent can follow to create every file and folder for Prompt Wars. This is a task-by-task playbook: exact paths, short purpose, what to put inside (skeleton), acceptance criteria, tests, and recommended Git commit messages. It follows the project phases and is optimized for incremental PRs so you can review small, verifiable changes.
+
+I’ll assume the repo root is prompt-wars/. Each task entry contains:
+
+Path (file or folder)
+
+What to create
+
+Skeleton / key contents
+
+Acceptance criteria (how you verify)
+
+Test/QA (unit/integration pointers)
+
+Suggested git commit message
+
+1. Overall work plan (order of execution)
+Repo init + toolchain + CI (foundation).
+
+Backend core: DB connection + models + basic API routes (health).
+
+WebSocket skeleton (ws-server) and Redis wiring.
+
+Tournament engine service (pure JS/TS functions + unit tests).
+
+Station auth & check-in endpoints + session cookie wiring.
+
+AI integration service stubs (inference + judge) with safe mocks.
+
+Battle Room API + basic frontend pages (station, bracket, arena) skeletons.
+
+WebSocket events for match lifecycle and timer.
+
+Admin console skeleton and problem bank endpoints.
+
+Spectator / analytics pages.
+
+Polish: streaming tokens, error handling, Sentry, deployment scripts, Docker.
+
+Load tests, dry runs, final fixes.
+
+Deliver each numbered phase as a PR containing only the files in that phase.
+
+2. Repository init + top-level files (Phase 0)
+Create these first so the agent can run and test locally.
+
+prompt-wars/
+├── .gitignore
+├── README.md
+├── package.json
+├── tsconfig.json
+├── next.config.mjs
+├── tailwind.config.ts
+├── postcss.config.cjs
+├── .env.example
+└── .github/
+    └── workflows/
+        └── ci.yml
+Files
+.gitignore
+
+What: Typical Node/Next ignore plus .env.local, /node_modules, /.next, /dist, /ws-server/node_modules.
+
+Acceptance: git status should not show .env.local.
+
+package.json
+
+What: monorepo-style scripts (or single package approach). Example scripts:
+
+dev:web -> next dev
+
+dev:ws -> ts-node-dev --respawn ws-server/src/index.ts
+
+build -> next build
+
+start -> next start
+
+test -> vitest
+
+Acceptance: npm run dev:web starts Next dev server.
+
+tsconfig.json
+
+What: strict TypeScript config, path aliases for @/* -> ./lib/* if desired.
+
+Acceptance: tsc --noEmit passes initially.
+
+README.md
+
+What: short setup, env vars list, how to run local dev servers for both frontend and ws-server.
+
+Acceptance: developer can follow README to bootstrap.
+
+.env.example
+
+What: list of env var names (no secrets): MONGODB_URI, REDIS_URL, GROQ_API_KEY, GOOGLE_AI_API_KEY, OPENROUTER_API_KEY, SESSION_SECRET, NEXT_PUBLIC_WS_URL, NEXT_PUBLIC_APP_URL, FROZEN_MODEL, JUDGE_MODEL.
+
+Acceptance: copying to .env.local and populating minimal test values must allow server to start.
+
+.github/workflows/ci.yml
+
+What: runs npm ci, npm run lint, npm run build, npm test.
+
+Acceptance: GitHub Actions runs successfully on PR.
+
+Suggested commit message: chore: repo init + base config and CI
+
+3. Next.js app skeleton & core API route (Phase 0 continuation)
+Create app/ structure and minimal health endpoint.
+
+app/
+├── layout.tsx
+├── globals.css
+└── api/
+    └── health/
+        └── route.ts
+app/api/health/route.ts
+
+Skeleton:
+
+import { NextResponse } from "next/server";
+export async function GET() {
+  return NextResponse.json({ status: "ok", timestamp: new Date().toISOString() });
+}
+Acceptance: curl http://localhost:3000/api/health returns {status:"ok"}.
+
+app/layout.tsx
+
+Basic root layout with children.
+
+Suggested commit message: feat(app): add Next.js app skeleton + health route
+
+4. Database layer (Phase 0 → Phase 1 start)
+Create DB connection singleton and models directory.
+
+lib/
+├── db/
+│   ├── connection.ts
+│   └── models/
+│       ├── User.ts
+│       ├── Match.ts
+│       ├── Tournament.ts
+│       └── Problem.ts
+├── redis.ts
+└── session.ts
+lib/db/connection.ts
+
+Skeleton (TypeScript):
+
+import mongoose from "mongoose";
+
+declare global {
+  var _mongoClientPromise: Promise<typeof mongoose> | undefined;
+}
+
+const MONGODB_URI = process.env.MONGODB_URI!;
+if (!MONGODB_URI) throw new Error("Missing MONGODB_URI");
+
+let cached: { conn: typeof mongoose | null; promise: Promise<typeof mongoose> | null } = (global as any)._mongoClientCache || { conn: null, promise: null };
+
+export async function connectDB() {
+  if (cached.conn) return cached.conn;
+  if (!cached.promise) {
+    cached.promise = mongoose.connect(MONGODB_URI).then(m => m);
+    (global as any)._mongoClientCache = cached;
+  }
+  cached.conn = await cached.promise;
+  return cached.conn;
+}
+Acceptance: server logs show successful Mongo connection; unit test can import connectDB and mock MONGODB_URI.
+
+Models (Mongoose schemas)
+Create minimal fields as per plan. Provide example User.ts:
+
+import { Schema, model, models } from "mongoose";
+
+const UserSchema = new Schema({
+  battleTag: { type: String, required: true, unique: true },
+  role: { type: String, enum: ["player","admin","spectator"], default: "player" },
+  station: { type: String },
+  stats: { wins: Number, avgScore: Number },
+}, { timestamps: true });
+
+export default models.User || model("User", UserSchema);
+Acceptance: npm test includes model import tests.
+
+lib/redis.ts
+
+Use ioredis and export singleton.
+
+Acceptance: new Redis instance connects locally / to Upstash in prod.
+
+lib/session.ts
+
+iron-session config exported for API routes (session cookie secret from env).
+
+Acceptance: check-in flow uses session cookie later.
+
+Suggested commit message: feat(db): add mongoose connection & core models + redis + session
+
+5. Tournament engine service + unit tests (Phase 1)
+Folder & files:
+
+lib/services/
+├── tournament.ts
+tests/
+├── tournament.test.ts
+lib/services/tournament.ts
+
+Implement functions:
+
+generateBracket(players: string[])
+
+computeWaves(roundMatches: Match[], stationCount: number = 6)
+
+advanceWinner(matchId, winnerId)
+
+Include clear JSDoc comments and deterministic behavior for unit tests (seedable shuffle or use Fisher-Yates).
+
+Unit tests (Vitest)
+
+generateBracket test for 50 players: asserts 49 matches, 14 byes, 18 play-in matches.
+
+Acceptance: npm test passes.
+
+Suggested commit message: feat(tournament): implement bracket generation + unit tests
+
+6. API endpoints for tournament + match (Phase 1)
+Create the API route files that call services.
+
+app/api/tournament/
+├── generate/route.ts
+├── bracket/route.ts
+└── advance/route.ts
+
+app/api/match/
+└── [id]/
+    ├── route.ts       // GET match info
+    ├── submit/route.ts
+    ├── test/route.ts
+    ├── execute/route.ts
+    ├── judge/route.ts
+    └── override/route.ts
+Behavior & skeletons
+
+POST /api/tournament/generate accepts player IDs, returns bracket structure.
+
+GET /api/tournament/bracket returns current bracket DB state.
+
+POST /api/tournament/advance advances winner (auth-protected).
+
+Match routes: stub submit, test, execute to call service functions; execute triggers inference service (use mock for now).
+
+Acceptance:
+
+Each endpoint returns 200 with expected JSON shape when invoked with test payload.
+
+Add Zod input validation.
+
+Suggested commit message: feat(api): add tournament + match API routes (skeleton)
+
+7. WebSocket server skeleton (Phase 0/2)
+Create a standalone minimal Socket.IO server and Redis pub/sub bridge.
+
+ws-server/
+├── package.json
+├── tsconfig.json
+├── src/
+│   ├── index.ts
+│   ├── redisSubscriber.ts
+│   └── handlers/
+│       ├── matchEvents.ts
+│       ├── timerEvents.ts
+│       └── adminEvents.ts
+├── Dockerfile
+ws-server/src/index.ts skeleton:
+
+import http from "http";
+import { Server } from "socket.io";
+import Redis from "ioredis";
+
+const server = http.createServer();
+const io = new Server(server, { cors: { origin: "*" } });
+
+io.on("connection", socket => {
+  socket.on("join:match", (matchId) => socket.join(`match:${matchId}`));
+  socket.on("join:spectate", () => socket.join("spectate"));
+  // attach handlers...
+});
+
+const port = process.env.WS_PORT ? Number(process.env.WS_PORT) : 4000;
+server.listen(port, () => console.log(`WS server listening ${port}`));
+redisSubscriber.ts:
+
+Subscribe to match:events and forward to IO rooms.
+
+Acceptance:
+
+Running npm run dev:ws starts server.
+
+Local test script opens a socket, emits join:match, and server responds with ack.
+
+Suggested commit message: feat(ws): add websocket server skeleton + redis bridge
+
+8. Station check-in flow & session cookie (Phase 2)
+Files:
+
+app/api/station/
+├── assign/route.ts
+├── checkin/route.ts
+└── [id]/session/route.ts
+app/station/[id]/page.tsx
+/api/station/checkin
+
+Admin posts { playerId, stationId }.
+
+Sets iron-session cookie on response to lock that browser to that player.
+
+Acceptance: visiting app/station/s1-a after checkin shows assigned player.
+
+station page
+
+Reads session cookie and shows assigned player or "Awaiting assignment".
+
+Suggested commit message: feat(station): implement station check-in and station page
+
+9. Inference + Judge service (Phase 3) — stubbed + mockable
+Files:
+
+lib/services/inference.ts
+lib/services/judge.ts
+tests/judge.test.ts
+inference.ts
+
+Export runPrompt(systemPrompt, userPrompt, opts):
+
+In dev mode (no API keys) use a deterministic mock generator that returns "Mocked output for testing".
+
+Implement rate-limiter in Redis: key ratelimit:{matchId} allowing 5 test runs.
+
+judge.ts
+
+judgeMatch(problem, outputA, outputB) constructs judge prompt and calls judge API; on invalid response, fallback to mock or OpenRouter.
+
+Provide JSON parsing and zod validation.
+
+Acceptance:
+
+Unit tests provide mocked responses: returns valid verdict JSON.
+
+npm test includes judge parse failure -> fallback behavior.
+
+Suggested commit message: feat(ai): add inference + judge service with mock fallbacks
+
+10. Battle Room UI components (Phase 4)
+Create UI components used by app/arena/[matchId]/page.tsx:
+
+components/arena/
+├── BattleRoom.tsx
+├── PromptEditor.tsx
+├── OutputViewer.tsx
+├── CountdownTimer.tsx
+└── VerdictOverlay.tsx
+
+components/shared/
+└── LoadingSpinner.tsx
+BattleRoom.tsx
+
+Layout of three columns: problem, prompt editor(s), output viewer.
+
+Connects to WebSocket room match:{matchId} on mount.
+
+Hooks for useTimer, useSocket (implement in lib/hooks/).
+
+Acceptance:
+
+npm run dev:web + visit localhost:3000/arena/TEST shows component placeholders.
+
+WebSocket mock triggers problem:reveal and UI updates.
+
+Suggested commit message: feat(ui): add battle room components and hooks
+
+11. WebSocket events implementation (Phase 4/5)
+Files to update/add:
+
+ws-server/src/handlers/matchEvents.ts
+ws-server/src/handlers/timerEvents.ts
+lib/services/timer.ts
+Responsibilities
+
+match:start, problem:reveal, timer:tick, prompt:test, output:stream, prompt:submit, execution:start, verdict:announce.
+
+Timer service persists match:{id}:timer in Redis and emits timer:tick.
+
+Acceptance:
+
+Start a match via API -> WS problem:reveal + timer:tick events stream to connected clients.
+
+Timer auto-submits (simulate) at the 15-minute mark (or shorter test interval in dev).
+
+Suggested commit message: feat(ws): implement match lifecycle events and server-side timer
+
+12. Admin console & problem bank (Phase 5)
+Files:
+
+app/admin/page.tsx
+app/admin/match/[id]/page.tsx
+app/api/admin/problem/route.ts
+app/api/admin/problem/reveal/route.ts
+app/api/admin/poison/route.ts
+Admin console features
+
+Show waves, start wave, reveal problem, poison pill trigger (only enabled after quarterfinals)
+
+poison endpoint pushes a poison:inject event to the match room.
+
+Acceptance:
+
+Admin page can call the reveal endpoint and WS clients receive problem:reveal.
+
+Poison injection shows up in client UI.
+
+Suggested commit message: feat(admin): add console + problem bank endpoints
+
+13. Spectator & bracket public views (Phase 6)
+Create public spectator pages and bracket display:
+
+app/spectate/page.tsx
+app/bracket/page.tsx
+components/spectator/SpectatorGrid.tsx
+components/bracket/BracketTree.tsx
+Acceptance:
+
+Multiple spectator clients see same bracket state and live outputs via WS events.
+
+Suggested commit message: feat(ui): spectator grid + bracket view
+
+14. Analytics & data export (Phase 7)
+Files:
+
+app/analytics/page.tsx
+app/api/analytics/export/route.ts
+lib/services/analytics.ts
+Acceptance:
+
+GET /api/analytics/export returns full tournament JSON (matches, prompts, outputs, verdicts).
+
+Analytics page shows basic charts (Recharts) with sample data.
+
+Suggested commit message: feat(analytics): data export + analytics dashboard
+
+15. Infra, Docker, CI/CD, deployment (finalization)
+Files:
+
+Dockerfile
+ws-server/Dockerfile
+deploy/
+├── vercel.json (if needed)
+└── README-deploy.md
+.github/workflows/deploy.yml
+Dockerfile (root) for prod Next app + separate ws-server/Dockerfile.
+
+CI/CD
+
+deploy.yml triggers vercel deployment (or uses Vercel/GitHub integration).
+
+Railway deployment instructions for ws-server in README (include Start command: node dist/index.js).
+
+Acceptance:
+
+Production deploy to Vercel (manual verification) and Railway for WS server.
+
+Suggested commit message: chore(ci/cd): add Docker + deploy configuration
+
+16. Tests, load testing, and dry-run scripts
+Create:
+
+tests/
+├── unit/
+│   └── tournament.test.ts
+├── integration/
+│   └── fullMatchFlow.test.ts (optional harness)
+load-test/
+└── k6/
+    └── load-test.js
+scripts/
+└── seedStations.ts
+Acceptance:
+
+npm test runs unit suite.
+
+k6 run load-test.js produces p95 < 2s in local simulated environment (tweak thresholds).
+
+Suggested commit message: test: add unit tests + load-test scripts
+
+17. PR checklist & acceptance criteria (for each PR you assign)
+For each PR created by agent, enforce this checklist:
+
+Code builds (npm run build) with no TypeScript errors.
+
+Lint passes (npm run lint).
+
+Unit tests pass (npm test).
+
+New endpoints have Zod validation and a basic test harness.
+
+WS server starts and logs expected events locally.
+
+README updated with any developer-facing run steps.
+
+A short PR description: purpose, files changed, how to run manually to verify.
+
+Use these review labels: phase:0, phase:1, etc.
+
+18. Example small-first PRs (recommended)
+PR 1 — repo init + health endpoint + CI. (chore: repo init)
+
+PR 2 — DB connection + models + redis singleton. (feat(db): ...)
+
+PR 3 — tournament service with unit tests. (feat(tournament): ...)
+
+PR 4 — basic ws-server + redis subscriber. (feat(ws): initial)
+
+PR 5 — station checkin + station UI. (feat(station): ...)
+
+PR 6 — inference + judge mock services. (feat(ai): mock services)
+
+PR 7 — battle room UI wired to mock WS. (feat(ui): battle room)
+
+PR 8 — integrate real AI providers + rate limits. (feat(ai): production integrations)
+
+PR 9 — admin console + problem bank + poison pill. (feat(admin): ...)
+
+PR 10 — deploy config + load tests + analytics. (chore(deploy): ...)
+
+19. Quick code snippets (for agent to copy/paste)
+app/api/health/route.ts
+
+import { NextResponse } from "next/server";
+export async function GET() {
+  return NextResponse.json({ status: "ok", time: new Date().toISOString() });
+}
+ws-server/src/index.ts (minimal start)
+
+import http from "http";
+import { Server } from "socket.io";
+
+const server = http.createServer();
+const io = new Server(server, { cors: { origin: "*" } });
+
+io.on("connection", socket => {
+  socket.on("join:match", (id) => {
+    socket.join(`match:${id}`);
+    socket.emit("joined", { matchId: id });
+  });
+});
+
+server.listen(4000, () => console.log("WS server listening on 4000"));
+lib/db/connection.ts snippet already in plan above.
+
+20. Assignment format to give to your coding agent
+For each file/folder-creation task, assign an object like:
+
+{
+  "task_id": "phase1-001",
+  "title": "Add mongoose connection singleton",
+  "files": ["lib/db/connection.ts"],
+  "description": "Create a TypeScript singleton that connects to MongoDB using MONGODB_URI",
+  "skeleton": "<paste-snippet>",
+  "acceptance": ["curl /api/health -> 200", "tsc --noEmit passes"],
+  "tests": ["none (unit test optional)"],
+  "estimate": "1-2 hours",
+  "priority": "high"
+}
+Use that JSON for each task; it’s machine-parseable and easy to convert into issues.
+
+That’s the full, nitty-gritty plan for file/folder creation — ready to be converted into tasks/issues for your agent. Want me to convert this into a set of JSON issue objects (one per file/task) so you can paste them into your task manager or assign them automatically? I can produce that in the next message as a bulk JSON array mapped to each file/task.
+
+
+write the complete directory sturcture from the dev document here in the chat
+
+Below is the complete directory structure exactly based on the development document for the Prompt Wars Platform. This structure represents the full repository tree including frontend, backend services, WebSocket server, CI/CD, and configuration.
+
+The structure is taken from the engineering development guide for the platform. 
+PromptWars_Dev_Plan
+
+
+Complete Prompt Wars Platform Directory Structure
+prompt-wars/                              # Root – Next.js 14 application
+│
+├── app/                                   # App Router pages + API routes
+│
+│   ├── (public)/                          # Public pages (no authentication)
+│   │
+│   │   ├── page.tsx                       # Landing page (event overview)
+│   │
+│   │   ├── register/
+│   │   │   └── page.tsx                   # Participant registration form
+│   │
+│   │   ├── bracket/
+│   │   │   └── page.tsx                   # Live tournament bracket view
+│   │
+│   │   ├── spectate/
+│   │   │   └── page.tsx                   # Spectator live match view
+│   │
+│   │   └── leaderboard/
+│   │       └── page.tsx                   # Rankings / leaderboard
+│
+│
+│   ├── station/
+│   │   └── [id]/
+│   │       └── page.tsx                   # Station login page (auto auth)
+│
+│
+│   ├── dashboard/
+│   │   └── page.tsx                       # Player dashboard
+│
+│
+│   ├── arena/
+│   │   └── [matchId]/
+│   │       ├── page.tsx                   # Battle Room (prompt editor + output)
+│   │       └── loading.tsx                # Suspense loading state
+│
+│
+│   ├── admin/
+│   │   ├── page.tsx                       # Game Master console
+│   │
+│   │   ├── match/
+│   │   │   └── [id]/
+│   │   │       └── page.tsx               # Individual match control panel
+│   │
+│   │   └── problems/
+│   │       └── page.tsx                   # Problem bank manager
+│
+│
+│   ├── analytics/
+│   │   └── page.tsx                       # Post-event analytics dashboard
+│
+│
+│   ├── api/                               # Backend REST endpoints
+│   │
+│   │   ├── health/
+│   │   │   └── route.ts                   # GET /api/health
+│   │
+│   │
+│   │   ├── station/
+│   │   │
+│   │   │   ├── assign/
+│   │   │   │   └── route.ts               # POST /api/station/assign
+│   │   │
+│   │   │   ├── checkin/
+│   │   │   │   └── route.ts               # POST /api/station/checkin
+│   │   │
+│   │   │   └── [id]/
+│   │   │       └── session/
+│   │   │           └── route.ts           # GET station session
+│   │
+│   │
+│   │   ├── tournament/
+│   │   │
+│   │   │   ├── bracket/
+│   │   │   │   └── route.ts               # GET bracket state
+│   │   │
+│   │   │   ├── generate/
+│   │   │   │   └── route.ts               # POST generate bracket
+│   │   │
+│   │   │   └── advance/
+│   │   │       └── route.ts               # POST advance winner
+│   │
+│   │
+│   │   ├── match/
+│   │   │   └── [id]/
+│   │   │
+│   │   │       ├── route.ts               # GET match details
+│   │   │
+│   │   │       ├── submit/
+│   │   │       │   └── route.ts           # POST final prompt
+│   │   │
+│   │   │       ├── test/
+│   │   │       │   └── route.ts           # POST test prompt run
+│   │   │
+│   │   │       ├── execute/
+│   │   │       │   └── route.ts           # POST run both prompts
+│   │   │
+│   │   │       ├── judge/
+│   │   │       │   └── route.ts           # POST judge match
+│   │   │
+│   │   │       └── override/
+│   │   │           └── route.ts           # POST admin override result
+│   │
+│   │
+│   │   ├── admin/
+│   │   │
+│   │   │   ├── problem/
+│   │   │   │   └── route.ts               # POST add problem
+│   │   │
+│   │   │   ├── problem/
+│   │   │   │   └── reveal/
+│   │   │   │       └── route.ts           # Reveal problem
+│   │   │
+│   │   │   └── poison/
+│   │   │       └── route.ts               # Inject poison pill constraint
+│   │
+│   │
+│   │   ├── leaderboard/
+│   │   │   └── route.ts                   # GET standings
+│   │
+│   │
+│   │   └── analytics/
+│   │       └── export/
+│   │           └── route.ts               # Export tournament data
+│
+│
+│   ├── layout.tsx                         # Root layout
+│   └── globals.css                        # Global styles
+│
+│
+├── components/                            # React UI components
+│
+│   ├── ui/                                # shadcn/ui generated components
+│
+│   ├── arena/
+│   │   ├── BattleRoom.tsx
+│   │   ├── PromptEditor.tsx
+│   │   ├── OutputViewer.tsx
+│   │   ├── CountdownTimer.tsx
+│   │   ├── VerdictOverlay.tsx
+│   │   └── ProblemDisplay.tsx
+│
+│   ├── bracket/
+│   │   ├── BracketTree.tsx
+│   │   ├── MatchCard.tsx
+│   │   └── RoundLabel.tsx
+│
+│   ├── spectator/
+│   │   ├── SpectatorGrid.tsx
+│   │   ├── SpotlightMatch.tsx
+│   │   └── MatchFeedTicker.tsx
+│
+│   ├── admin/
+│   │   ├── WaveControlPanel.tsx
+│   │   ├── ProblemRevealBtn.tsx
+│   │   ├── PoisonPillTrigger.tsx
+│   │   ├── OverridePanel.tsx
+│   │   └── SystemHealth.tsx
+│
+│   └── shared/
+│       ├── PlayerTag.tsx
+│       ├── RoundBadge.tsx
+│       ├── ScoreBar.tsx
+│       └── LoadingSpinner.tsx
+│
+│
+├── lib/                                   # Backend utilities
+│
+│   ├── db/
+│   │
+│   │   ├── connection.ts                  # MongoDB connection singleton
+│   │
+│   │   └── models/
+│   │       ├── User.ts
+│   │       ├── Match.ts
+│   │       ├── Tournament.ts
+│   │       └── Problem.ts
+│
+│
+│   ├── services/
+│   │   ├── tournament.ts                  # Bracket logic
+│   │   ├── inference.ts                   # AI inference service
+│   │   ├── judge.ts                       # AI judge pipeline
+│   │   ├── timer.ts                       # Match timer logic
+│   │   └── station.ts                     # Station authentication
+│
+│
+│   ├── redis.ts                           # Redis client
+│   ├── session.ts                         # Iron-session configuration
+│
+│
+│   ├── schemas/
+│   │   ├── match.schema.ts
+│   │   ├── verdict.schema.ts
+│   │   └── tournament.schema.ts
+│
+│
+│   └── hooks/
+│       ├── useSocket.ts
+│       ├── useTimer.ts
+│       └── useMatchState.ts
+│
+│
+├── ws-server/                             # Standalone WebSocket server
+│
+│   ├── src/
+│   │
+│   │   ├── index.ts                       # WebSocket server entry point
+│   │
+│   │   ├── handlers/
+│   │   │   ├── matchEvents.ts
+│   │   │   ├── timerEvents.ts
+│   │   │   └── adminEvents.ts
+│   │
+│   │   └── redisSubscriber.ts             # Redis pub/sub bridge
+│
+│   ├── package.json
+│   ├── tsconfig.json
+│   └── Dockerfile
+│
+│
+├── public/                                # Static assets
+│
+│
+├── .github/
+│   └── workflows/
+│       ├── ci.yml                         # CI pipeline
+│       └── deploy.yml                     # Auto deploy workflow
+│
+│
+├── .env.local                             # Local environment variables
+├── .gitignore
+├── package.json
+├── tsconfig.json
+├── next.config.mjs
+├── tailwind.config.ts
+└── README.md
+What This Structure Represents
+This repository contains three main subsystems:
+
+1. Frontend Application
+Next.js 14 App Router.
+
+Responsible for:
+
+player interface
+
+battle room
+
+admin console
+
+spectator view
+
+leaderboard
+
+analytics
+
+2. Backend API Layer
+Next.js API routes handle:
+
+match execution
+
+prompt submission
+
+judging
+
+bracket updates
+
+station assignment
+
+admin controls
+
+3. Real-Time Infrastructure
+Standalone WebSocket server:
+
+ws-server/
+Handles:
+
+timers
+
+output streaming
+
+live updates
+
+spectator feeds
+
+bracket updates
+
+Key Design Philosophy
+This project uses a layered architecture:
+
+Frontend UI
+    ↓
+REST API
+    ↓
+Services
+    ↓
+Database + Redis
+    ↓
+WebSocket Server
+    ↓
+Clients
+And integrates two AI pipelines:
+
+Battle AI
+Groq Llama-3.3-70B
+
+Judge AI
+Gemini 2.0 Flash
+Both are isolated systems to ensure fairness. 
+PromptWars_Platform_Management_…
+
+
+If you want, I can also create a visual system architecture diagram showing how:
+
+Next.js
+
+WebSocket server
+
+Redis
+
+MongoDB
+
+Groq
+
+Gemini
+
+all interact together.
+
+That diagram will make this entire platform much easier for your coding agents to understand.

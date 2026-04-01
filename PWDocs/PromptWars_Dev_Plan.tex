@@ -1,0 +1,1154 @@
+% ============================================================================
+% PROMPT WARS: THE ARENA — Complete Development Plan
+% GLITCH TECH FEST 2026
+% ============================================================================
+\documentclass[11pt, a4paper]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[margin=2cm]{geometry}
+\usepackage{xcolor}
+\usepackage{titlesec}
+\usepackage{enumitem}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{tabularx}
+\usepackage{fancyhdr}
+\usepackage{hyperref}
+\usepackage{tikz}
+\usetikzlibrary{shapes.geometric, arrows.meta, positioning, calc, backgrounds, fit}
+\usepackage{tcolorbox}
+\tcbuselibrary{skins, breakable}
+\usepackage{float}
+\usepackage{parskip}
+\usepackage{needspace}
+\usepackage{etoolbox}
+\usepackage{listings}
+\usepackage{multicol}
+
+\raggedbottom
+\setlength{\parskip}{0.3em}
+\renewcommand{\topfraction}{0.95}
+\renewcommand{\bottomfraction}{0.95}
+\renewcommand{\textfraction}{0.05}
+\renewcommand{\floatpagefraction}{0.85}
+\setcounter{topnumber}{4}
+\setcounter{bottomnumber}{4}
+\setcounter{totalnumber}{8}
+
+% --- Colours ---
+\definecolor{primaryblue}{HTML}{1A3C6E}
+\definecolor{accentgold}{HTML}{D4A843}
+\definecolor{sectionblue}{HTML}{2C5F9E}
+\definecolor{lightgray}{HTML}{F2F2F2}
+\definecolor{darktext}{HTML}{2C2C2C}
+\definecolor{alertred}{HTML}{C0392B}
+\definecolor{successgreen}{HTML}{27AE60}
+\definecolor{warnamber}{HTML}{F39C12}
+\definecolor{infopurple}{HTML}{8E44AD}
+\definecolor{softcyan}{HTML}{2980B9}
+\definecolor{codebg}{HTML}{1E1E2E}
+\definecolor{codegreen}{HTML}{A6E3A1}
+\definecolor{codeyellow}{HTML}{F9E2AF}
+\definecolor{codepurple}{HTML}{CBA6F7}
+\definecolor{codeblue}{HTML}{89B4FA}
+\definecolor{monggreen}{HTML}{47A248}
+\definecolor{redisred}{HTML}{DC382D}
+
+% --- Code listings ---
+\lstdefinestyle{codestyle}{
+    backgroundcolor=\color{codebg},
+    basicstyle=\ttfamily\scriptsize\color{white},
+    keywordstyle=\color{codepurple}\bfseries,
+    stringstyle=\color{codegreen},
+    commentstyle=\color{gray}\itshape,
+    numberstyle=\tiny\color{gray},
+    numbers=left,
+    numbersep=8pt,
+    breaklines=true,
+    frame=single,
+    rulecolor=\color{gray!40},
+    tabsize=2,
+    showstringspaces=false,
+    xleftmargin=1.5em,
+    framexleftmargin=1.5em,
+}
+\lstset{style=codestyle}
+
+\lstdefinestyle{shell}{
+    backgroundcolor=\color{black!90},
+    basicstyle=\ttfamily\scriptsize\color{white},
+    breaklines=true,
+    frame=single,
+    rulecolor=\color{gray!40},
+    tabsize=2,
+    xleftmargin=1.2em,
+    framexleftmargin=1.2em,
+    numbers=none,
+}
+
+% --- Hyperlinks ---
+\hypersetup{
+    colorlinks=true,
+    linkcolor=sectionblue,
+    urlcolor=sectionblue,
+    citecolor=sectionblue,
+}
+
+% --- Header & Footer ---
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small\textcolor{primaryblue}{\textbf{GLITCH TECH FEST 2026}}}
+\fancyhead[R]{\small\textcolor{primaryblue}{PromptWars --- Complete Development Plan}}
+\fancyfoot[C]{\small\textcolor{gray}{\thepage}}
+\fancyfoot[R]{\small\textcolor{gray}{The Technous Club --- Engineering Team}}
+\renewcommand{\headrulewidth}{0.8pt}
+\renewcommand{\footrulewidth}{0.4pt}
+\renewcommand{\headrule}{\hbox to\headwidth{\color{primaryblue}\leaders\hrule height \headrulewidth\hfill}}
+\renewcommand{\footrule}{\hbox to\headwidth{\color{gray}\leaders\hrule height \footrulewidth\hfill}}
+
+% --- Section Formatting ---
+\titleformat{\section}
+  {\Large\bfseries\color{primaryblue}}
+  {\thesection.}{0.5em}{}[\vspace{-0.4em}\textcolor{accentgold}{\rule{\textwidth}{1.5pt}}]
+\titlespacing*{\section}{0pt}{1.0em}{0.4em}
+
+\titleformat{\subsection}
+  {\large\bfseries\color{sectionblue}}
+  {\thesubsection}{0.5em}{}
+\titlespacing*{\subsection}{0pt}{0.7em}{0.2em}
+
+\titleformat{\subsubsection}
+  {\normalsize\bfseries\color{darktext}}
+  {\thesubsubsection}{0.5em}{}
+\titlespacing*{\subsubsection}{0pt}{0.5em}{0.15em}
+
+\pretocmd{\section}{\needspace{5\baselineskip}}{}{}
+\pretocmd{\subsection}{\needspace{4\baselineskip}}{}{}
+
+% --- Custom Boxes ---
+\tcbset{
+    keybox/.style={
+        colback=lightgray, colframe=primaryblue, boxrule=0.8pt, arc=3pt,
+        left=10pt, right=10pt, top=7pt, bottom=7pt,
+        fonttitle=\bfseries\color{white}, coltitle=white, colbacktitle=primaryblue,
+        toptitle=3pt, bottomtitle=3pt, before skip=0.4em, after skip=0.4em,
+        breakable,
+    },
+    phasebox/.style={
+        colback=#1!5, colframe=#1, boxrule=0.8pt, arc=4pt,
+        left=10pt, right=10pt, top=7pt, bottom=7pt,
+        fonttitle=\bfseries\color{white}, coltitle=white, colbacktitle=#1,
+        toptitle=3pt, bottomtitle=3pt, before skip=0.4em, after skip=0.4em,
+        breakable,
+    },
+    codebox/.style={
+        colback=codebg, colframe=gray!40, boxrule=0.5pt, arc=2pt,
+        left=8pt, right=8pt, top=6pt, bottom=6pt,
+        before skip=0.4em, after skip=0.4em,
+        breakable, break at=-\baselineskip/0pt,
+    },
+    alertbox/.style={
+        colback=red!5, colframe=alertred, boxrule=0.8pt, arc=3pt,
+        left=10pt, right=10pt, top=7pt, bottom=7pt,
+        fonttitle=\bfseries\color{white}, coltitle=white, colbacktitle=alertred,
+        toptitle=3pt, bottomtitle=3pt, before skip=0.4em, after skip=0.4em,
+        breakable,
+    },
+    tipbox/.style={
+        colback=successgreen!6, colframe=successgreen, boxrule=0.8pt, arc=3pt,
+        left=10pt, right=10pt, top=7pt, bottom=7pt,
+        before skip=0.4em, after skip=0.4em,
+    },
+    stepbox/.style={
+        colback=sectionblue!5, colframe=sectionblue, boxrule=0.8pt, arc=3pt,
+        left=10pt, right=10pt, top=7pt, bottom=7pt,
+        fonttitle=\bfseries\color{white}, coltitle=white, colbacktitle=sectionblue,
+        toptitle=3pt, bottomtitle=3pt, before skip=0.4em, after skip=0.4em,
+        breakable,
+    },
+}
+
+% ============================================================================
+\begin{document}
+% ============================================================================
+
+% ---------- TITLE PAGE ----------
+\begin{titlepage}
+    \centering
+    \vspace*{1cm}
+    {\Huge\bfseries\textcolor{primaryblue}{GLITCH TECH FEST 2026}\\[0.3cm]}
+    \textcolor{accentgold}{\rule{0.7\textwidth}{2pt}}\\[0.8cm]
+    {\fontsize{30}{36}\selectfont\bfseries\textcolor{primaryblue}{PROMPT WARS}}\\[0.2cm]
+    {\LARGE\textcolor{sectionblue}{\textit{The Arena}}}\\[0.6cm]
+    {\large\textcolor{darktext}{\textit{``From Zero to Arena: The Complete Build Guide''}}}\\[1.2cm]
+
+    \begin{tcolorbox}[
+        colback=lightgray, colframe=primaryblue, boxrule=1pt,
+        arc=5pt, width=0.85\textwidth, halign=center
+    ]
+        {\large\textbf{Complete Platform Development Plan}}\\[0.3cm]
+        {\normalsize Covers: API Setup $\cdot$ Architecture $\cdot$ Directory Structure\\
+        Development Phases $\cdot$ Implementation Guide $\cdot$ Testing $\cdot$ Deployment $\cdot$ Event-Day Operations}\\[0.2cm]
+        {\small Prepared by: The Technous Club --- Engineering Team, Shoolini University}
+    \end{tcolorbox}
+
+    \vspace{1cm}
+
+    \begin{tikzpicture}
+        \foreach \tech/\col/\xpos in {
+            Next.js/darktext/0,
+            Node.js/successgreen/2.4,
+            Socket.IO/softcyan/4.8,
+            Groq/sectionblue/7.2,
+            Gemini/infopurple/9.6,
+            MongoDB/monggreen/12,
+            Redis/redisred/14.4%
+        } {
+            \node[draw=\col, fill=\col!10, rounded corners=3pt, font=\scriptsize\bfseries,
+                  text=\col, inner sep=3pt, minimum width=1.9cm] at (\xpos, 0) {\tech};
+        }
+    \end{tikzpicture}
+
+    \vfill
+    \begin{tabular}{r l}
+        \textbf{Document Type:}   & Developer Reference --- Engineering Team \\
+        \textbf{Classification:}  & Internal --- Engineering Team Only \\
+        \textbf{Target Event:}    & GLITCH Tech Fest 2026 (March 14--16) \\
+        \textbf{Event Day:}       & Day 2 --- March 15, 2026 \\
+    \end{tabular}
+    \vspace{1cm}
+\end{titlepage}
+
+% ---------- TABLE OF CONTENTS ----------
+{%
+  \setlength{\parskip}{0pt}%
+  \renewcommand{\baselinestretch}{0.9}%
+  \small\tableofcontents
+}
+\newpage
+
+% ============================================================================
+\section{Project Overview \& Goals}
+% ============================================================================
+
+The PromptWars Platform is a purpose-built, real-time web application that powers the \textit{Prompt Wars: The Arena} tournament at GLITCH Tech Fest 2026. This document is the \textbf{complete developer reference} for building the platform from scratch --- covering every step from account creation to deployment.
+
+\begin{tcolorbox}[keybox, title={What We Are Building}]
+A full-stack Next.js 14 application with a standalone Socket.IO WebSocket server, MongoDB Atlas database, Redis cache, and integrations with Groq (Battle AI) and Google Gemini (Judge AI). The platform handles 50 participants, 49 matches across 6 rounds, with 6 parallel stations and real-time updates to all connected users.
+\end{tcolorbox}
+
+\subsection{Core Requirements Summary}
+
+\begin{table}[H]
+\centering
+\small\renewcommand{\arraystretch}{1.3}
+\begin{tabularx}{\textwidth}{>{\bfseries}p{3.5cm} X}
+\toprule
+Requirement & Detail \\
+\midrule
+Participants       & 50 registered players, station-based login (no passwords) \\
+Matches            & 49 total: 18 Play-In + 16 Round of 32 + 8 R16 + 4 QF + 2 SF + 1 Final \\
+Parallel Matches   & Up to 6 simultaneous (one per station) \\
+Match Duration     & 20 minutes (full), 8 minutes (Play-In) \\
+AI Battle Model    & Llama 3.3 70B via Groq --- frozen, identical settings for all \\
+AI Judge Model     & Gemini 2.0 Flash --- structured JSON verdict after each match \\
+Real-Time Updates  & WebSocket (Socket.IO): timer, output streaming, bracket, results \\
+Roles              & Participant, Game Master (admin), Spectator \\
+\bottomrule
+\end{tabularx}
+\caption{Platform Requirements at a Glance}
+\end{table}
+
+% ============================================================================
+\section{Prerequisites \& Tools Setup}
+% ============================================================================
+
+\subsection{Local Development Environment}
+
+Before writing any code, ensure your development machine has the following installed:
+
+\begin{table}[H]
+\centering
+\small\renewcommand{\arraystretch}{1.3}
+\begin{tabularx}{\textwidth}{>{\bfseries}l l X}
+\toprule
+Tool & Version & Install / Verify \\
+\midrule
+Node.js    & 20.x LTS   & \texttt{node --version} $\geq$ 20. Download: \texttt{nodejs.org} \\
+npm        & 10.x       & Ships with Node.js. \texttt{npm --version} \\
+Git        & 2.x        & \texttt{git --version}. Download: \texttt{git-scm.com} \\
+VS Code    & Latest     & Recommended IDE. \texttt{code.visualstudio.com} \\
+\bottomrule
+\end{tabularx}
+\caption{Required Local Tools}
+\end{table}
+
+\subsection{Recommended VS Code Extensions}
+
+Install these from the VS Code Extensions panel (Ctrl+Shift+X):
+
+\begin{multicols}{2}
+\begin{itemize}[leftmargin=1cm, itemsep=1pt, topsep=2pt]
+    \item ESLint
+    \item Prettier
+    \item Tailwind CSS IntelliSense
+    \item TypeScript \& JavaScript
+    \item MongoDB for VS Code
+    \item Thunder Client (API testing)
+    \item GitLens
+    \item Error Lens
+\end{itemize}
+\end{multicols}
+
+% ============================================================================
+\section{API \& Service Account Setup}
+% ============================================================================
+
+\textbf{Complete this section first.} All services must be set up before writing any code. Each subsection gives step-by-step instructions.
+
+\subsection{1. GitHub --- Version Control}
+
+\begin{tcolorbox}[stepbox, title={Step-by-Step: GitHub Repository Setup}]
+\begin{enumerate}[leftmargin=1cm, itemsep=3pt]
+    \item Go to \texttt{https://github.com} and log in (or create a free account).
+    \item Click \textbf{New Repository}. Set name: \texttt{prompt-wars}. Set to \textbf{Private}.
+    \item Do NOT initialise with a README (we will push from local).
+    \item Copy the repository URL: \texttt{https://github.com/your-org/prompt-wars.git}
+    \item On your machine: \texttt{git init} in project folder, then \texttt{git remote add origin <URL>}
+\end{enumerate}
+\end{tcolorbox}
+
+\subsection{2. Vercel --- Website Hosting (Pro Plan)}
+
+\begin{tcolorbox}[stepbox, title={Step-by-Step: Vercel Pro Account Setup}]
+\begin{enumerate}[leftmargin=1cm, itemsep=3pt]
+    \item Go to \texttt{https://vercel.com} and sign up with your GitHub account.
+    \item After logging in, go to \textbf{Settings $\to$ Billing} and upgrade to the \textbf{Pro plan} (\$20/month). This activates the INR~1,700/month billing.
+    \item Go to \textbf{Add New $\to$ Project}. Select your \texttt{prompt-wars} GitHub repository.
+    \item Vercel auto-detects Next.js. Leave all settings as default. Click \textbf{Deploy}.
+    \item After deploy, go to \textbf{Settings $\to$ Domains}. Add: \texttt{promptwars.technous.in} (configure DNS in Cloudflare after).
+    \item Go to \textbf{Settings $\to$ Environment Variables}. You will add API keys here in later steps. Keep this tab open.
+    \item \textbf{Important:} Note your Vercel project URL: \texttt{https://prompt-wars.vercel.app}
+\end{enumerate}
+\end{tcolorbox}
+
+\subsection{3. Railway --- WebSocket Server (Pro Plan)}
+
+\begin{tcolorbox}[stepbox, title={Step-by-Step: Railway Pro Account Setup}]
+\begin{enumerate}[leftmargin=1cm, itemsep=3pt]
+    \item Go to \texttt{https://railway.com} and sign up with GitHub.
+    \item Click \textbf{Upgrade to Pro} in the dashboard (\$20/month, includes \$20 usage credit).
+    \item Click \textbf{New Project $\to$ Deploy from GitHub Repo}.
+    \item Select \texttt{prompt-wars} repo. Set the \textbf{Root Directory} to \texttt{ws-server/} (our standalone Socket.IO process).
+    \item Set the \textbf{Start Command} to: \texttt{node dist/index.js}
+    \item After deploy, go to \textbf{Settings $\to$ Networking}. Generate a public domain. Note the URL: e.g., \texttt{https://prompt-wars-ws.up.railway.app}
+    \item Go to \textbf{Variables} tab in Railway. Add environment variables in later steps.
+\end{enumerate}
+\end{tcolorbox}
+
+\subsection{4. MongoDB Atlas --- Database (M10 Dedicated)}
+
+\begin{tcolorbox}[stepbox, title={Step-by-Step: MongoDB Atlas M10 Setup}]
+\begin{enumerate}[leftmargin=1cm, itemsep=3pt]
+    \item Go to \texttt{https://cloud.mongodb.com} and create a free account.
+    \item Click \textbf{Create a Cluster}. Choose \textbf{Dedicated} tier.
+    \item Select \textbf{M10} (10~GB, 2 vCPUs). Choose \textbf{AWS ap-south-1} (Mumbai) for lowest latency.
+    \item Set cluster name: \texttt{prompt-wars-prod}. Click \textbf{Create Cluster} (billing starts at \$57/month = \textasciitilde INR~4,850/month).
+    \item Under \textbf{Security $\to$ Database Access}: Click \textbf{Add New Database User}. Set username: \texttt{promptwars}. Generate a strong password. Save it securely.
+    \item Under \textbf{Security $\to$ Network Access}: Click \textbf{Add IP Address $\to$ Allow Access from Anywhere} (\texttt{0.0.0.0/0}). (Vercel and Railway have dynamic IPs so we need to allow all.)
+    \item Click \textbf{Connect $\to$ Connect your application}. Select \textbf{Node.js}, version 5.5+.
+    \item Copy the connection string. It looks like:\\
+          \texttt{mongodb+srv://promptwars:<password>@prompt-wars-prod.xxxxx.mongodb.net/}
+    \item Replace \texttt{<password>} with the password from step 5. Add \texttt{promptwars} at the end as the database name:\\
+          \texttt{mongodb+srv://promptwars:<pw>@.../promptwars?retryWrites=true\&w=majority}
+    \item Save this as your \texttt{MONGODB\_URI} environment variable.
+\end{enumerate}
+\end{tcolorbox}
+
+\subsection{5. Upstash Redis --- Cache \& Pub/Sub}
+
+\begin{tcolorbox}[stepbox, title={Step-by-Step: Upstash Redis Setup}]
+\begin{enumerate}[leftmargin=1cm, itemsep=3pt]
+    \item Go to \texttt{https://upstash.com} and sign up (free account).
+    \item Click \textbf{Create Database}. Choose \textbf{Regional}. Select region: \textbf{ap-south-1} (Mumbai).
+    \item Set name: \texttt{prompt-wars-redis}. Enable \textbf{TLS}. Click \textbf{Create}.
+    \item From the database dashboard, copy two values:
+        \begin{itemize}[leftmargin=0.8cm]
+            \item \textbf{UPSTASH\_REDIS\_REST\_URL} --- the HTTPS endpoint
+            \item \textbf{UPSTASH\_REDIS\_REST\_TOKEN} --- the auth token
+        \end{itemize}
+    \item Also copy the \textbf{Redis URL} (for ioredis):
+          \texttt{rediss://default:<token>@<host>:<port>}
+    \item Save as \texttt{REDIS\_URL} environment variable.
+    \item Billing is pay-as-you-go. Monitor usage in the Upstash dashboard. Budget: INR~850/month.
+\end{enumerate}
+\end{tcolorbox}
+
+\subsection{6. Cloudflare --- DNS, CDN \& DDoS Protection (Pro)}
+
+\begin{tcolorbox}[stepbox, title={Step-by-Step: Cloudflare Setup}]
+\begin{enumerate}[leftmargin=1cm, itemsep=3pt]
+    \item Go to \texttt{https://dash.cloudflare.com} and create an account.
+    \item Click \textbf{Add a Site}. Enter your domain (e.g., \texttt{technous.in}).
+    \item Upgrade to the \textbf{Pro plan} (\$20/month or \$240/year) for WAF and DDoS features.
+    \item \textbf{Add DNS Records:}
+        \begin{itemize}[leftmargin=0.8cm]
+            \item Type: \texttt{CNAME}, Name: \texttt{promptwars}, Target: \texttt{cname.vercel-dns.com}, Proxy: ON
+        \end{itemize}
+    \item In Cloudflare dashboard, go to \textbf{SSL/TLS $\to$ Overview}. Set to \textbf{Full (Strict)}.
+    \item Go to \textbf{Security $\to$ WAF}. Enable the default ruleset.
+    \item Go to \textbf{Speed $\to$ Optimization}. Enable \textbf{Auto Minify} (JS, CSS, HTML).
+    \item No API keys needed for basic setup. Cloudflare protects the platform automatically.
+\end{enumerate}
+\end{tcolorbox}
+
+\subsection{7. Groq Cloud --- Battle AI API}
+
+\begin{tcolorbox}[phasebox=infopurple, title={Step-by-Step: Groq API Key Setup}]
+\begin{enumerate}[leftmargin=1cm, itemsep=3pt]
+    \item Go to \texttt{https://console.groq.com} and sign up with Google or email.
+    \item After logging in, click \textbf{API Keys} in the left sidebar.
+    \item Click \textbf{Create API Key}. Name it: \texttt{prompt-wars-prod}.
+    \item Copy the key immediately --- it is shown only once. It starts with \texttt{gsk\_...}
+    \item Save as environment variable: \texttt{GROQ\_API\_KEY=gsk\_...}
+    \item \textbf{Add billing:} Go to \textbf{Settings $\to$ Billing}. Add a payment method. Set a spending cap of \$30/month for safety.
+    \item \textbf{Test the key:} Run this cURL command in your terminal:
+\end{enumerate}
+\begin{lstlisting}[style=shell]
+curl https://api.groq.com/openai/v1/chat/completions \
+  -H "Authorization: Bearer $GROQ_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{"model":"llama-3.3-70b-versatile","messages":[{"role":"user","content":"Hello"}]}'
+\end{lstlisting}
+\begin{enumerate}[leftmargin=1cm, itemsep=3pt, start=8]
+    \item Expected: JSON response with a message. If you get a 401, the key is wrong.
+    \item The model name to use everywhere in code: \texttt{llama-3.3-70b-versatile}
+\end{enumerate}
+\end{tcolorbox}
+
+\subsection{8. Google AI Studio --- Judge AI API (Gemini)}
+
+\begin{tcolorbox}[phasebox=infopurple, title={Step-by-Step: Google Gemini API Key Setup}]
+\begin{enumerate}[leftmargin=1cm, itemsep=3pt]
+    \item Go to \texttt{https://aistudio.google.com} and sign in with a Google account.
+    \item Click \textbf{Get API Key $\to$ Create API key in new project}.
+    \item Copy the key. It starts with \texttt{AIza...}
+    \item Save as: \texttt{GOOGLE\_AI\_API\_KEY=AIza...}
+    \item \textbf{Enable billing for paid tier:} Go to \texttt{https://console.cloud.google.com}, find the project created by AI Studio, go to \textbf{Billing} and link a billing account. This moves you to the paid tier for higher rate limits. Budget: INR~1,275 total.
+    \item \textbf{Test:}
+\end{enumerate}
+\begin{lstlisting}[style=shell]
+curl "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=$GOOGLE_AI_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{"contents":[{"parts":[{"text":"Say hello"}]}]}'
+\end{lstlisting}
+\begin{enumerate}[leftmargin=1cm, start=7]
+    \item The model name to use in code: \texttt{gemini-2.0-flash}
+\end{enumerate}
+\end{tcolorbox}
+
+\subsection{9. OpenRouter --- Fallback Judge API}
+
+\begin{tcolorbox}[stepbox, title={Step-by-Step: OpenRouter Setup}]
+\begin{enumerate}[leftmargin=1cm, itemsep=3pt]
+    \item Go to \texttt{https://openrouter.ai} and sign up.
+    \item Go to \textbf{Keys $\to$ Create Key}. Name: \texttt{prompt-wars-fallback}.
+    \item Copy the key: \texttt{sk-or-...}
+    \item Save as: \texttt{OPENROUTER\_API\_KEY=sk-or-...}
+    \item Add INR~850 ($\sim$\$10) in credits under \textbf{Credits}. This is an emergency-only reserve.
+    \item The fallback model string: \texttt{openai/gpt-4o-mini}
+\end{enumerate}
+\end{tcolorbox}
+
+\subsection{Environment Variables Master Reference}
+
+Once all accounts are set up, your complete \texttt{.env.local} file will look like this:
+
+\begin{tcolorbox}[codebox]
+\small\color{white}\ttfamily
+\textcolor{codegreen}{\# Database}\\
+MONGODB\_URI=mongodb+srv://promptwars:<pw>@prompt-wars-prod.xxxxx.mongodb.net/promptwars?...\\
+\textcolor{codegreen}{\# Redis}\\
+REDIS\_URL=rediss://default:<token>@<host>:<port>\\
+UPSTASH\_REDIS\_REST\_URL=https://<host>.upstash.io\\
+UPSTASH\_REDIS\_REST\_TOKEN=<token>\\
+\textcolor{codegreen}{\# AI APIs}\\
+GROQ\_API\_KEY=gsk\_...\\
+GOOGLE\_AI\_API\_KEY=AIza...\\
+OPENROUTER\_API\_KEY=sk-or-...\\
+\textcolor{codegreen}{\# Auth}\\
+SESSION\_SECRET=<random-32-char-string>\\
+ADMIN\_PASSWORD=<strong-password>\\
+\textcolor{codegreen}{\# App Config}\\
+NEXT\_PUBLIC\_APP\_URL=https://promptwars.technous.in\\
+NEXT\_PUBLIC\_WS\_URL=https://prompt-wars-ws.up.railway.app\\
+FROZEN\_MODEL=llama-3.3-70b-versatile\\
+JUDGE\_MODEL=gemini-2.0-flash\\
+FALLBACK\_JUDGE\_MODEL=openai/gpt-4o-mini\\
+\end{tcolorbox}
+
+\begin{tcolorbox}[alertbox, title={Security Warning}]
+Never commit \texttt{.env.local} to Git. Add it to \texttt{.gitignore} immediately. Add all variables to Vercel dashboard (Settings $\to$ Environment Variables) and Railway dashboard (Variables tab) instead.
+\end{tcolorbox}
+
+% ============================================================================
+\section{Repository Initialisation}
+% ============================================================================
+
+Run these commands in order to set up the project from scratch:
+
+\begin{tcolorbox}[codebox]
+\small\color{white}\ttfamily
+\textcolor{codegreen}{\# 1. Create Next.js 14 app with TypeScript, Tailwind, App Router}\\
+npx create-next-app@latest prompt-wars \\
+\quad\quad --typescript --tailwind --eslint --app --src-dir=false --import-alias="@/*"\\[0.2em]
+cd prompt-wars\\[0.2em]
+\textcolor{codegreen}{\# 2. Install all dependencies}\\
+npm install mongoose ioredis @upstash/redis zod iron-session axios\\
+npm install socket.io-client @monaco-editor/react framer-motion recharts\\
+npm install @tanstack/react-query zustand lucide-react\\
+npm install @google/generative-ai groq-sdk\\[0.2em]
+\textcolor{codegreen}{\# 3. Install shadcn/ui}\\
+npx shadcn-ui@latest init\\[0.2em]
+\textcolor{codegreen}{\# 4. Install dev dependencies}\\
+npm install -D @types/node vitest @vitejs/plugin-react socket.io\\
+npm install -D bullmq bcrypt @types/bcrypt\\[0.2em]
+\textcolor{codegreen}{\# 5. Set up WebSocket server as subfolder}\\
+mkdir ws-server \&\& cd ws-server\\
+npm init -y\\
+npm install socket.io ioredis\\
+npm install -D typescript @types/node ts-node nodemon\\
+cd ..\\[0.2em]
+\textcolor{codegreen}{\# 6. Link to GitHub}\\
+git init \&\& git remote add origin https://github.com/your-org/prompt-wars.git\\
+echo ".env.local" >> .gitignore\\
+git add . \&\& git commit -m "chore: initial project setup"\\
+git push -u origin main
+\end{tcolorbox}
+
+% ============================================================================
+\section{Complete Directory Structure}
+% ============================================================================
+
+\subsection{Annotated Full Tree}
+
+\begin{tcolorbox}[codebox]
+\small\color{white}\ttfamily
+prompt-wars/\textcolor{gray}{\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad// Root --- Next.js 14 App}\\
+\textcolor{codeblue}{|--} app/\textcolor{gray}{\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad// App Router pages \& API routes}\\
+\textcolor{codeblue}{|\quad |--} (public)/\textcolor{gray}{\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad// Route group: no auth required}\\
+\textcolor{codeblue}{|\quad |\quad |--} page.tsx\textcolor{gray}{\quad\quad\quad\quad\quad\quad\quad\quad// Landing page: event info, CTA}\\
+\textcolor{codeblue}{|\quad |\quad |--} register/\\
+\textcolor{codeblue}{|\quad |\quad |\quad `--} page.tsx\textcolor{gray}{\quad\quad\quad\quad\quad// Registration form}\\
+\textcolor{codeblue}{|\quad |\quad |--} bracket/\\
+\textcolor{codeblue}{|\quad |\quad |\quad `--} page.tsx\textcolor{gray}{\quad\quad\quad\quad\quad// Live bracket display}\\
+\textcolor{codeblue}{|\quad |\quad |--} spectate/\\
+\textcolor{codeblue}{|\quad |\quad |\quad `--} page.tsx\textcolor{gray}{\quad\quad\quad\quad\quad// Spectator view}\\
+\textcolor{codeblue}{|\quad |\quad `--} leaderboard/\\
+\textcolor{codeblue}{|\quad |\quad\quad\quad `--} page.tsx\textcolor{gray}{\quad\quad\quad\quad// Rankings}\\
+\textcolor{codeblue}{|\quad |--} station/[id]/\\
+\textcolor{codeblue}{|\quad |\quad `--} page.tsx\textcolor{gray}{\quad\quad\quad\quad\quad\quad\quad\quad// Station login: auto-assign on PC}\\
+\textcolor{codeblue}{|\quad |--} dashboard/\\
+\textcolor{codeblue}{|\quad |\quad `--} page.tsx\textcolor{gray}{\quad\quad\quad\quad\quad\quad\quad\quad// Player: schedule, stats, position}\\
+\textcolor{codeblue}{|\quad |--} arena/[matchId]/\\
+\textcolor{codeblue}{|\quad |\quad |--} page.tsx\textcolor{gray}{\quad\quad\quad\quad\quad\quad\quad\quad// Battle Room: editor, timer, output}\\
+\textcolor{codeblue}{|\quad |\quad `--} loading.tsx\textcolor{gray}{\quad\quad\quad\quad\quad\quad// Suspense loading state}\\
+\textcolor{codeblue}{|\quad |--} admin/\\
+\textcolor{codeblue}{|\quad |\quad |--} page.tsx\textcolor{gray}{\quad\quad\quad\quad\quad\quad\quad\quad// GM Console: wave control, overview}\\
+\textcolor{codeblue}{|\quad |\quad |--} match/[id]/\\
+\textcolor{codeblue}{|\quad |\quad |\quad `--} page.tsx\textcolor{gray}{\quad\quad\quad\quad// Individual match control}\\
+\textcolor{codeblue}{|\quad |\quad `--} problems/\\
+\textcolor{codeblue}{|\quad |\quad\quad\quad `--} page.tsx\textcolor{gray}{\quad\quad\quad\quad// Problem bank manager}\\
+\textcolor{codeblue}{|\quad |--} analytics/\\
+\textcolor{codeblue}{|\quad |\quad `--} page.tsx\textcolor{gray}{\quad\quad\quad\quad\quad\quad\quad\quad// Post-event analytics dashboard}\\
+\textcolor{codeblue}{|\quad |--} api/\textcolor{gray}{\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad// All REST endpoints}\\
+\textcolor{codeblue}{|\quad |\quad |--} health/route.ts\textcolor{gray}{\quad\quad\quad// GET /api/health}\\
+\textcolor{codeblue}{|\quad |\quad |--} station/\\
+\textcolor{codeblue}{|\quad |\quad |\quad |--} assign/route.ts\textcolor{gray}{\quad\quad// POST /api/station/assign}\\
+\textcolor{codeblue}{|\quad |\quad |\quad |--} checkin/route.ts\textcolor{gray}{\quad// POST /api/station/checkin}\\
+\textcolor{codeblue}{|\quad |\quad |\quad `--} [id]/session/route.ts\textcolor{gray}{//GET}\\
+\textcolor{codeblue}{|\quad |\quad |--} tournament/\\
+\textcolor{codeblue}{|\quad |\quad |\quad |--} bracket/route.ts\textcolor{gray}{\quad// GET bracket state}\\
+\textcolor{codeblue}{|\quad |\quad |\quad |--} generate/route.ts\textcolor{gray}{\quad// POST generate bracket}\\
+\textcolor{codeblue}{|\quad |\quad |\quad `--} advance/route.ts\textcolor{gray}{\quad// POST advance winner}\\
+\textcolor{codeblue}{|\quad |\quad |--} match/[id]/\\
+\textcolor{codeblue}{|\quad |\quad |\quad |--} route.ts\textcolor{gray}{\quad\quad\quad\quad\quad// GET match details}\\
+\textcolor{codeblue}{|\quad |\quad |\quad |--} submit/route.ts\textcolor{gray}{\quad// POST final prompt}\\
+\textcolor{codeblue}{|\quad |\quad |\quad |--} test/route.ts\textcolor{gray}{\quad\quad// POST test run}\\
+\textcolor{codeblue}{|\quad |\quad |\quad |--} execute/route.ts\textcolor{gray}{\quad// POST run both prompts}\\
+\textcolor{codeblue}{|\quad |\quad |\quad |--} judge/route.ts\textcolor{gray}{\quad\quad// POST trigger judge}\\
+\textcolor{codeblue}{|\quad |\quad |\quad `--} override/route.ts\textcolor{gray}{\quad// POST admin override}\\
+\textcolor{codeblue}{|\quad |\quad |--} admin/\\
+\textcolor{codeblue}{|\quad |\quad |\quad |--} problem/route.ts\textcolor{gray}{\quad// POST add problem}\\
+\textcolor{codeblue}{|\quad |\quad |\quad |--} problem/reveal/route.ts\\
+\textcolor{codeblue}{|\quad |\quad |\quad `--} poison/route.ts\textcolor{gray}{\quad// POST inject constraint}\\
+\textcolor{codeblue}{|\quad |\quad |--} leaderboard/route.ts\textcolor{gray}{\quad// GET standings}\\
+\textcolor{codeblue}{|\quad |\quad `--} analytics/export/route.ts\\
+\textcolor{codeblue}{|\quad |--} layout.tsx\textcolor{gray}{\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad// Root layout, metadata, providers}\\
+\textcolor{codeblue}{|\quad `--} globals.css\textcolor{gray}{\quad\quad\quad\quad\quad\quad\quad\quad\quad// Tailwind base + custom CSS vars}\\
+\end{tcolorbox}
+
+\begin{tcolorbox}[codebox]
+\small\color{white}\ttfamily
+\textcolor{codeblue}{|--} components/\textcolor{gray}{\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad// Reusable React components}\\
+\textcolor{codeblue}{|\quad |--} ui/\textcolor{gray}{\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad// shadcn/ui auto-generated}\\
+\textcolor{codeblue}{|\quad |--} arena/\\
+\textcolor{codeblue}{|\quad |\quad |--} BattleRoom.tsx\textcolor{gray}{\quad\quad\quad// Full match room layout}\\
+\textcolor{codeblue}{|\quad |\quad |--} PromptEditor.tsx\textcolor{gray}{\quad\quad// Monaco editor wrapper}\\
+\textcolor{codeblue}{|\quad |\quad |--} OutputViewer.tsx\textcolor{gray}{\quad\quad// Streamed LLM output display}\\
+\textcolor{codeblue}{|\quad |\quad |--} CountdownTimer.tsx\textcolor{gray}{\quad// Server-synced timer}\\
+\textcolor{codeblue}{|\quad |\quad |--} VerdictOverlay.tsx\textcolor{gray}{\quad// Post-match result reveal}\\
+\textcolor{codeblue}{|\quad |\quad `--} ProblemDisplay.tsx\textcolor{gray}{\quad// Problem statement renderer}\\
+\textcolor{codeblue}{|\quad |--} bracket/\\
+\textcolor{codeblue}{|\quad |\quad |--} BracketTree.tsx\textcolor{gray}{\quad\quad\quad// Full tournament bracket}\\
+\textcolor{codeblue}{|\quad |\quad |--} MatchCard.tsx\textcolor{gray}{\quad\quad\quad\quad// Single match in bracket}\\
+\textcolor{codeblue}{|\quad |\quad `--} RoundLabel.tsx\\
+\textcolor{codeblue}{|\quad |--} spectator/\\
+\textcolor{codeblue}{|\quad |\quad |--} SpectatorGrid.tsx\textcolor{gray}{\quad\quad// 6-card match grid}\\
+\textcolor{codeblue}{|\quad |\quad |--} SpotlightMatch.tsx\textcolor{gray}{\quad// SF/Final single enlarged view}\\
+\textcolor{codeblue}{|\quad |\quad `--} MatchFeedTicker.tsx\textcolor{gray}{\quad// Scrolling result ticker}\\
+\textcolor{codeblue}{|\quad |--} admin/\\
+\textcolor{codeblue}{|\quad |\quad |--} WaveControlPanel.tsx\\
+\textcolor{codeblue}{|\quad |\quad |--} ProblemRevealBtn.tsx\\
+\textcolor{codeblue}{|\quad |\quad |--} PoisonPillTrigger.tsx\\
+\textcolor{codeblue}{|\quad |\quad |--} OverridePanel.tsx\\
+\textcolor{codeblue}{|\quad |\quad `--} SystemHealth.tsx\\
+\textcolor{codeblue}{|\quad `--} shared/\\
+\textcolor{codeblue}{|\quad\quad\quad |--} PlayerTag.tsx\textcolor{gray}{\quad\quad\quad\quad// Battle Tag badge}\\
+\textcolor{codeblue}{|\quad\quad\quad |--} RoundBadge.tsx\\
+\textcolor{codeblue}{|\quad\quad\quad |--} ScoreBar.tsx\\
+\textcolor{codeblue}{|\quad\quad\quad `--} LoadingSpinner.tsx\\
+\textcolor{codeblue}{|--} lib/\\
+\textcolor{codeblue}{|\quad |--} db/\\
+\textcolor{codeblue}{|\quad |\quad |--} connection.ts\textcolor{gray}{\quad\quad\quad\quad// Mongoose connect (singleton)}\\
+\textcolor{codeblue}{|\quad |\quad `--} models/\\
+\textcolor{codeblue}{|\quad |\quad\quad\quad |--} User.ts\textcolor{gray}{\quad\quad\quad\quad\quad// Participant + Game Master}\\
+\textcolor{codeblue}{|\quad |\quad\quad\quad |--} Match.ts\textcolor{gray}{\quad\quad\quad\quad// Match + submission + verdict}\\
+\textcolor{codeblue}{|\quad |\quad\quad\quad |--} Tournament.ts\textcolor{gray}{\quad// Bracket + config + state}\\
+\textcolor{codeblue}{|\quad |\quad\quad\quad `--} Problem.ts\textcolor{gray}{\quad\quad// Problem bank}\\
+\textcolor{codeblue}{|\quad |--} services/}\\
+\textcolor{codeblue}{|\quad |\quad |--} tournament.ts\textcolor{gray}{\quad\quad\quad// Bracket gen, wave scheduling}\\
+\textcolor{codeblue}{|\quad |\quad |--} inference.ts\textcolor{gray}{\quad\quad\quad\quad// Groq/OpenRouter proxy}\\
+\textcolor{codeblue}{|\quad |\quad |--} judge.ts\textcolor{gray}{\quad\quad\quad\quad\quad\quad// Gemini judge pipeline}\\
+\textcolor{codeblue}{|\quad |\quad |--} timer.ts\textcolor{gray}{\quad\quad\quad\quad\quad\quad// Server-side match clock}\\
+\textcolor{codeblue}{|\quad |\quad `--} station.ts\textcolor{gray}{\quad\quad\quad\quad// Station auth logic}\\
+\textcolor{codeblue}{|\quad |--} redis.ts\textcolor{gray}{\quad\quad\quad\quad\quad\quad\quad\quad// ioredis client singleton}\\
+\textcolor{codeblue}{|\quad |--} session.ts\textcolor{gray}{\quad\quad\quad\quad\quad\quad\quad// iron-session config}\\
+\textcolor{codeblue}{|\quad |--} schemas/\\
+\textcolor{codeblue}{|\quad |\quad |--} match.schema.ts\textcolor{gray}{\quad\quad// Zod: match + submit}\\
+\textcolor{codeblue}{|\quad |\quad |--} verdict.schema.ts\textcolor{gray}{\quad// Zod: judge output}\\
+\textcolor{codeblue}{|\quad |\quad `--} tournament.schema.ts\\
+\textcolor{codeblue}{|\quad `--} hooks/\\
+\textcolor{codeblue}{|\quad\quad\quad |--} useSocket.ts\textcolor{gray}{\quad\quad\quad\quad// WebSocket connection hook}\\
+\textcolor{codeblue}{|\quad\quad\quad |--} useTimer.ts\textcolor{gray}{\quad\quad\quad\quad// Server-synced countdown hook}\\
+\textcolor{codeblue}{|\quad\quad\quad `--} useMatchState.ts\textcolor{gray}{\quad// Zustand match store hook}\\
+\textcolor{codeblue}{|--} ws-server/\textcolor{gray}{\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad// Standalone Socket.IO process}\\
+\textcolor{codeblue}{|\quad |--} src/}\\
+\textcolor{codeblue}{|\quad |\quad |--} index.ts\textcolor{gray}{\quad\quad\quad\quad\quad\quad// Entry: creates HTTP + Socket.IO server}\\
+\textcolor{codeblue}{|\quad |\quad |--} handlers/\\
+\textcolor{codeblue}{|\quad |\quad |\quad |--} matchEvents.ts\textcolor{gray}{\quad// All match:* events}\\
+\textcolor{codeblue}{|\quad |\quad |\quad |--} timerEvents.ts\textcolor{gray}{\quad// timer:tick broadcast}\\
+\textcolor{codeblue}{|\quad |\quad |\quad `--} adminEvents.ts\textcolor{gray}{\quad// wave:advance, poison:inject}\\
+\textcolor{codeblue}{|\quad |\quad `--} redisSubscriber.ts\textcolor{gray}{\quad// Subscribes to Redis, relays to WS}\\
+\textcolor{codeblue}{|\quad |--} package.json}\\
+\textcolor{codeblue}{|\quad |--} tsconfig.json}\\
+\textcolor{codeblue}{|\quad `--} Dockerfile}\\
+\textcolor{codeblue}{|--} public/}\\
+\textcolor{codeblue}{|--} .github/workflows/}\\
+\textcolor{codeblue}{|\quad |--} ci.yml\textcolor{gray}{\quad\quad\quad\quad\quad\quad\quad\quad\quad// Lint + typecheck + test on PR}\\
+\textcolor{codeblue}{|\quad `--} deploy.yml\textcolor{gray}{\quad\quad\quad\quad\quad\quad// Auto-deploy on main merge}\\
+\textcolor{codeblue}{|--} .env.local\textcolor{gray}{\quad\quad\quad\quad\quad\quad\quad\quad\quad// Local secrets --- NEVER COMMIT}\\
+\textcolor{codeblue}{|--} .gitignore}\\
+\textcolor{codeblue}{|--} package.json}\\
+\textcolor{codeblue}{|--} tsconfig.json}\\
+\textcolor{codeblue}{|--} next.config.mjs}\\
+\textcolor{codeblue}{|--} tailwind.config.ts}\\
+\textcolor{codeblue}{`--} README.md}
+\end{tcolorbox}
+
+% ============================================================================
+\section{Development Phases}
+% ============================================================================
+
+Build the platform in 7 phases, in strict order. Each phase has a clear goal and a checklist of deliverables.
+
+\subsection{Phase 0 --- Foundation (Day 1--2)}
+\label{phase0}
+
+\begin{tcolorbox}[phasebox=primaryblue, title={Goal: Working skeleton project with database, auth, and CI/CD}]
+\begin{enumerate}[leftmargin=1cm, itemsep=3pt]
+    \item \textbf{Database models:} Create all 4 Mongoose models (User, Match, Tournament, Problem) in \texttt{lib/db/models/}. See schema definitions from the Technical Document Section 6.
+    \item \textbf{DB connection:} \texttt{lib/db/connection.ts} --- singleton Mongoose connection that caches across serverless function invocations.
+\end{enumerate}
+\end{tcolorbox}
+
+\begin{tcolorbox}[codebox]
+\small\color{white}\ttfamily
+\textcolor{codegreen}{// lib/db/connection.ts}\\
+import mongoose from 'mongoose';\\
+let cached = global.mongoose || \{ conn: null, promise: null \};\\
+export async function connectDB() \{\\
+\quad if (cached.conn) return cached.conn;\\
+\quad cached.promise = mongoose.connect(process.env.MONGODB\_URI!);\\
+\quad cached.conn = await cached.promise;\\
+\quad return cached.conn;\\
+\}
+\end{tcolorbox}
+
+\begin{enumerate}[leftmargin=1.5cm, itemsep=3pt, start=3]
+    \item \textbf{Redis client:} \texttt{lib/redis.ts} --- ioredis singleton.
+    \item \textbf{Session config:} \texttt{lib/session.ts} --- iron-session with role and stationId claims.
+    \item \textbf{Health endpoint:} \texttt{app/api/health/route.ts} --- returns \texttt{\{"status":"ok"\}} with DB ping.
+    \item \textbf{CI/CD:} Create \texttt{.github/workflows/ci.yml} --- runs \texttt{npm run lint} and \texttt{npm run typecheck} on every PR.
+    \item \textbf{WebSocket server skeleton:} \texttt{ws-server/src/index.ts} --- bare Socket.IO server that connects to Redis and logs connections.
+\end{enumerate}
+
+\textbf{Phase 0 Done When:} \texttt{/api/health} returns 200, MongoDB connection is confirmed in logs, WebSocket server starts without errors.
+
+\subsection{Phase 1 --- Tournament Engine (Day 2--4)}
+
+\begin{tcolorbox}[phasebox=sectionblue, title={Goal: Complete bracket logic with no UI}]
+Build \texttt{lib/services/tournament.ts} with these functions, tested independently:
+\begin{enumerate}[leftmargin=1cm, itemsep=3pt]
+    \item \textbf{\texttt{generateBracket(players)}} --- Takes array of player IDs, runs Fisher-Yates shuffle, computes Play-In count (for 50: 36 play, 14 bye), builds complete bracket tree as nested JS object.
+    \item \textbf{\texttt{computeWaves(round, stationCount)}} --- Given a round and 6 stations, splits matches into waves of at most 6.
+    \item \textbf{\texttt{advanceWinner(matchId, winnerId)}} --- Updates bracket: sets winner, identifies next opponent (or bye), marks next match as ready.
+    \item \textbf{\texttt{getCurrentWave(tournamentId)}} --- Returns all active matches in the current wave.
+\end{enumerate}
+API routes to implement: \texttt{POST /api/tournament/generate}, \texttt{GET /api/tournament/bracket}, \texttt{POST /api/tournament/advance}.
+\end{tcolorbox}
+
+\textbf{Test:} Write a unit test in Vitest that generates a 50-player bracket and verifies: 49 total matches, 14 byes, 18 Play-In matches, 6 rounds total.
+
+\subsection{Phase 2 --- Station Auth \& Check-In (Day 3--4)}
+
+\begin{tcolorbox}[phasebox=successgreen, title={Goal: Station-based login flow, no passwords}]
+\begin{enumerate}[leftmargin=1cm, itemsep=3pt]
+    \item \textbf{Station seeding script:} A script that creates 12 station records in the DB: S1-A, S1-B through S6-A, S6-B.
+    \item \textbf{\texttt{POST /api/station/checkin}:} Admin calls this with a player ID and station ID. Sets an encrypted iron-session cookie on the station PC browser. Player is now ``logged in'' to that PC.
+    \item \textbf{\texttt{GET /api/station/[id]/session}:} Returns the current player assigned to that station.
+    \item \textbf{Station page} (\texttt{app/station/[id]/page.tsx}): Reads the station's session cookie. If a player is assigned, shows their name and bracket position. If not, shows ``Awaiting assignment.''
+    \item \textbf{Admin check-in UI} (simple page): Lists all stations, shows which are occupied, and allows the Game Master to assign a player by name/ID.
+\end{enumerate}
+\end{tcolorbox}
+
+\subsection{Phase 3 --- AI Integration Layer (Day 4--6)}
+
+\begin{tcolorbox}[phasebox=infopurple, title={Goal: Working inference and judge pipeline}]
+
+\textbf{3a. Inference Service} (\texttt{lib/services/inference.ts}):
+\begin{enumerate}[leftmargin=1cm, itemsep=2pt]
+    \item \textbf{\texttt{runPrompt(systemPrompt, userPrompt, stream)}} --- Calls Groq API with the frozen model parameters. In non-stream mode, returns the full text. In stream mode, returns an async generator of tokens.
+    \item Enforce frozen parameters: temperature 0.7, max\_tokens 2048, top\_p 0.9. These are NOT configurable per call.
+    \item Rate limiter: Read/write a Redis counter \texttt{ratelimit:\{userId\}:\{matchId\}}. Max 5 test runs per match. Reject with 429 if exceeded.
+    \item Timeout: Wrap the API call in a 30-second timeout. Log and return an error if exceeded.
+\end{enumerate}
+
+\textbf{3b. Judge Service} (\texttt{lib/services/judge.ts}):
+\begin{enumerate}[leftmargin=1cm, itemsep=2pt]
+    \item \textbf{\texttt{judgeMatch(problem, outputA, outputB)}} --- Constructs the judge prompt template (see Technical Spec Section 7.3), calls Gemini 2.0 Flash with \texttt{responseMimeType: "application/json"}.
+    \item Parse the response into the Zod \texttt{VerdictSchema}: \texttt{\{winner, score\_a, score\_b, justification\}}.
+    \item On failure (invalid JSON, timeout): retry with GPT-4o-mini via OpenRouter. Log the fallback activation.
+    \item Save the verdict to the Match document in MongoDB.
+\end{enumerate}
+\end{tcolorbox}
+
+\begin{tcolorbox}[codebox]
+\small\color{white}\ttfamily
+\textcolor{codegreen}{// Judge Prompt Template (hardcoded in judge.ts)}\\
+const judgePrompt = `You are the official Prompt Wars judge for GLITCH Tech Fest 2026.\\
+\\
+PROBLEM: \$\{problem\}\\
+OUTPUT A: \$\{outputA\}\\
+OUTPUT B: \$\{outputB\}\\
+\\
+Evaluate based on:\\
+1. Constraint Adherence (40\%) - Did the output follow ALL constraints?\\
+2. Logic \& Correctness (35\%) - Is it accurate and logically sound?\\
+3. Elegance \& Efficiency (25\%) - Quality relative to prompt complexity.\\
+\\
+Respond ONLY in this JSON format (no other text):\\
+\{"winner":"A","score\_a":82,"score\_b":64,"justification":"..."\}`;
+\end{tcolorbox}
+
+\subsection{Phase 4 --- Battle Room (Day 6--8)}
+
+\begin{tcolorbox}[phasebox=warnamber, title={Goal: Complete live 1v1 match room UI}]
+This is the most complex frontend component. Build it in sub-steps:
+
+\textbf{4a. WebSocket Events:} Implement all match-related events in \texttt{ws-server/src/handlers/matchEvents.ts}:
+\texttt{match:start}, \texttt{problem:reveal}, \texttt{timer:tick}, \texttt{prompt:test}, \texttt{output:stream}, \texttt{prompt:submit}, \texttt{execution:start}, \texttt{verdict:announce}.
+
+\textbf{4b. Server-Side Timer:} \texttt{lib/services/timer.ts} --- creates a setInterval on the WebSocket server that broadcasts \texttt{timer:tick} every second. Stores remaining time in Redis \texttt{match:\{id\}:timer}. At 0:15 auto-submits any unsubmitted prompts.
+
+\textbf{4c. Battle Room UI} (\texttt{components/arena/BattleRoom.tsx}):
+\begin{itemize}[leftmargin=1cm, itemsep=2pt]
+    \item Top bar: match ID, player tags, countdown timer (from \texttt{useTimer} hook)
+    \item Problem panel (left): Problem statement, rendered via \texttt{react-markdown}, revealed on \texttt{problem:reveal} event
+    \item Prompt editor (centre): Two Monaco Editor instances (system and user prompt). Disabled after submission.
+    \item Output viewer (right): Displays streamed tokens from \texttt{output:stream} events. Markdown rendered.
+    \item Bottom bar: Test Run button (calls \texttt{POST /api/match/[id]/test}), Submit Final button (calls \texttt{POST /api/match/[id]/submit}).
+    \item Verdict overlay: Shown on \texttt{verdict:announce} --- displays winner, scores, and justification with animation.
+\end{itemize}
+\end{tcolorbox}
+
+\subsection{Phase 5 --- Game Master Console (Day 8--9)}
+
+\begin{tcolorbox}[phasebox=alertred, title={Goal: Full admin control panel}]
+Build \texttt{app/admin/page.tsx} and its subcomponents:
+\begin{enumerate}[leftmargin=1cm, itemsep=3pt]
+    \item \textbf{Wave Control:} Shows all current-wave match statuses. Buttons: Start Wave, Pause, Force Advance.
+    \item \textbf{Problem Reveal:} Dropdown of problems from the bank, filtered by current round. \textbf{Reveal} button broadcasts \texttt{problem:reveal} via WebSocket to all active battle rooms.
+    \item \textbf{Poison Pill Trigger:} Only enabled for QF onwards. Injects an additional constraint via WebSocket event \texttt{poison:inject}.
+    \item \textbf{Override Panel:} Select a match, manually set the winner. Requires typing ``CONFIRM'' to prevent accidents. Calls \texttt{POST /api/match/[id]/override}.
+    \item \textbf{System Health:} Shows live counts of WebSocket connections, Redis pings, and recent API errors via \texttt{GET /api/health}.
+    \item \textbf{Check-In Board:} Table of all 50 participants with station assignment status and bracket position.
+\end{enumerate}
+\end{tcolorbox}
+
+\subsection{Phase 6 --- Spectator \& Public Views (Day 9--10)}
+
+\begin{tcolorbox}[phasebox=monggreen, title={Goal: Audience-facing live views}]
+\begin{enumerate}[leftmargin=1cm, itemsep=3pt]
+    \item \textbf{Spectator Grid} (\texttt{app/spectate/page.tsx}): Connect to WebSocket. Render up to 6 \texttt{SpectatorMatchCard} components, one per active match. Each card shows player tags, a live output preview (truncated to 200 chars), and a phase indicator.
+    \item \textbf{Spotlight Mode:} When only 2 matches remain (SF) or 1 match (Final), auto-switch from 6-card grid to full-screen single match view with animated token streaming.
+    \item \textbf{Live Bracket} (\texttt{app/bracket/page.tsx}): Subscribe to \texttt{bracket:update} via WebSocket. Render \texttt{BracketTree} component. Highlight active matches in amber, completed in green, upcoming in blue.
+    \item \textbf{Match Feed Ticker:} A scrolling bottom bar showing recent verdicts: e.g., ``P12 defeats P37 --- 82 vs 64 --- Round of 32''.
+\end{enumerate}
+\end{tcolorbox}
+
+\subsection{Phase 7 --- Polish \& Analytics (Day 10--11)}
+
+\begin{enumerate}[leftmargin=1.5cm, itemsep=3pt]
+    \item \textbf{Animations:} Wrap bracket updates, verdict reveals, and match transitions with Framer Motion. Keep subtle --- this is a competitive event, not a game.
+    \item \textbf{Analytics Dashboard} (\texttt{app/analytics/page.tsx}): Post-event only. Shows: score distributions (histogram via Recharts), prompt length vs score scatter, round-by-round upset rate, and champion's full prompt history.
+    \item \textbf{Data Export:} \texttt{GET /api/analytics/export} returns full tournament JSON (all matches, prompts, outputs, verdicts). Optionally render as CSV via a query param.
+    \item \textbf{Mobile Responsiveness:} The participant dashboard and bracket views should be readable on a phone (spectators in the audience). The Battle Room does NOT need to be mobile-optimised.
+    \item \textbf{Sentry Integration:} \texttt{npm install @sentry/nextjs}. Run \texttt{npx @sentry/wizard}. Captures unhandled errors in both the frontend and API routes.
+\end{enumerate}
+
+% ============================================================================
+\section{Core Service Implementation Guide}
+% ============================================================================
+
+\subsection{Database Models (Key Fields)}
+
+Reference the complete schema from the Technical Specification document (Section 6). The four Mongoose models to build are:
+
+\begin{table}[H]
+\centering
+\small\renewcommand{\arraystretch}{1.25}
+\begin{tabularx}{\textwidth}{>{\bfseries}l X}
+\toprule
+Model & Key Fields \\
+\midrule
+User.ts       & \_id, battle\_tag, university\_id, role, player\_number, station (stationId, assignedAt, isActive), isCheckedIn, paymentStatus, stats (wins, avgScore) \\
+Match.ts      & \_id, matchNumber, round, wave, station, status, playerA, playerB, problem, submissions (a+b), outputs (a+b), verdict (winner, scoreA, scoreB, justification, judgeModel), timing, winnerId \\
+Tournament.ts & \_id, name, status, config (maxParticipants, stations, matchDuration, frozenModel, judgeModel), bracket (totalPlayers, bracketSize, byes, rounds), currentRound, currentWave, championId \\
+Problem.ts    & \_id, round, title, statement, constraints[], poisonPill, difficulty, isRevealed, createdBy \\
+\bottomrule
+\end{tabularx}
+\caption{Mongoose Models Summary}
+\end{table}
+
+\subsection{WebSocket Room Strategy}
+
+Each match gets its own Socket.IO \textbf{room}. When a participant connects to the arena page, the server joins them to room \texttt{match:\{matchId\}}. Spectators join room \texttt{spectate} and \texttt{bracket}. The Game Master joins room \texttt{admin}.
+
+\begin{tcolorbox}[codebox]
+\small\color{white}\ttfamily
+\textcolor{codegreen}{// ws-server/src/index.ts (simplified)}\\
+io.on('connection', (socket) => \{\\
+\quad socket.on('join:match', (matchId) => \{\\
+\quad\quad socket.join(`match:\$\{matchId\}`); \textcolor{codegreen}{// Player joins their match room}\\
+\quad \});\\
+\quad socket.on('join:spectate', () => socket.join('spectate'));\\
+\quad socket.on('join:admin', (token) => \{\\
+\quad\quad if (verifyAdminToken(token)) socket.join('admin');\\
+\quad \});\\
+\});\\
+\textcolor{codegreen}{// Broadcast to all in a match room:}\\
+io.to(`match:\$\{matchId\}`).emit('problem:reveal', \{ statement \});\\
+\textcolor{codegreen}{// Broadcast bracket update to all spectators:}\\
+io.to('spectate').to('bracket').emit('bracket:update', bracketData);
+\end{tcolorbox}
+
+\subsection{Redis $\leftrightarrow$ WebSocket Bridge}
+
+Because Vercel API Routes (serverless) cannot hold a persistent Socket.IO connection, the Next.js server communicates with the WebSocket server via \textbf{Redis Pub/Sub}:
+
+\begin{tcolorbox}[codebox]
+\small\color{white}\ttfamily
+\textcolor{codegreen}{// In a Next.js API Route (after saving a verdict):}\\
+const redis = new Redis(process.env.REDIS\_URL!);\\
+await redis.publish('match:events', JSON.stringify(\{\\
+\quad type: 'verdict:announce',\\
+\quad matchId,\\
+\quad verdict: \{ winner, scoreA, scoreB, justification \}\\
+\}));\\[0.3em]
+\textcolor{codegreen}{// In ws-server/src/redisSubscriber.ts:}\\
+const subscriber = new Redis(process.env.REDIS\_URL!);\\
+subscriber.subscribe('match:events');\\
+subscriber.on('message', (channel, message) => \{\\
+\quad const event = JSON.parse(message);\\
+\quad io.to(`match:\$\{event.matchId\}`).emit(event.type, event);\\
+\quad io.to('spectate').emit(event.type, event);\quad\textcolor{codegreen}{// mirror to spectators}\\
+\});
+\end{tcolorbox}
+
+% ============================================================================
+\section{Testing Plan}
+% ============================================================================
+
+\subsection{Unit Tests (Vitest)}
+
+Write unit tests for all service functions. Priority order:
+
+\begin{enumerate}[leftmargin=1.5cm, itemsep=3pt]
+    \item \texttt{tournament.ts} --- bracket generation, wave scheduling, bye assignment. Verify 50-player bracket produces correct match counts.
+    \item \texttt{judge.ts} --- verdict parsing. Mock the Gemini API and test: valid JSON response, invalid JSON (triggers fallback), timeout (triggers retry).
+    \item \texttt{inference.ts} --- rate limit enforcement. Verify 6th test run is rejected with 429.
+    \item Zod schemas --- test all valid and invalid payloads for every API endpoint.
+\end{enumerate}
+
+\subsection{Integration Tests}
+
+Before deployment, run these manually or with a testing script:
+
+\begin{table}[H]
+\centering
+\small\renewcommand{\arraystretch}{1.3}
+\begin{tabularx}{\textwidth}{>{\bfseries}l X}
+\toprule
+Test & What to Verify \\
+\midrule
+Full Match Flow      & Assign 2 players to stations $\to$ start match $\to$ submit prompts $\to$ execute $\to$ verify verdict in DB \\
+Timer Auto-Submit    & Start match, do NOT submit. Wait 15 minutes. Verify prompts are force-submitted and execution begins. \\
+Fallback Judge       & Temporarily remove Gemini key. Run a match. Verify fallback to GPT-4o-mini and verdict is valid. \\
+WebSocket Reconnect  & Disconnect a client mid-match. Reconnect. Verify timer re-syncs from Redis, no data lost. \\
+50-Player Bracket    & Seed 50 users in DB. Generate bracket. Verify all waves, byes, and match assignments are correct. \\
+Admin Override       & Complete a match, then override the winner. Verify bracket updates correctly. \\
+\bottomrule
+\end{tabularx}
+\caption{Integration Test Checklist}
+\end{table}
+
+\subsection{Load Test (Day Before Event)}
+
+Simulate 50 concurrent users using a simple load test script:
+
+\begin{tcolorbox}[codebox]
+\small\color{white}\ttfamily
+\textcolor{codegreen}{\# Using k6 (install: brew install k6 or apt install k6)}\\
+k6 run --vus 50 --duration 30s load-test.js\\[0.2em]
+\textcolor{codegreen}{\# load-test.js should:}\\
+\textcolor{codegreen}{\# 1. GET /api/tournament/bracket (50 concurrent)}\\
+\textcolor{codegreen}{\# 2. POST /api/match/:id/test with a sample prompt}\\
+\textcolor{codegreen}{\# 3. Open 50 WebSocket connections and receive events}\\
+\textcolor{codegreen}{\# Target: p95 response time < 2s, 0 errors}
+\end{tcolorbox}
+
+\subsection{Dry Run (1--2 Days Before Event)}
+
+Conduct a dry run with 6 real people (team members) to simulate a full tournament mini-session:
+\begin{itemize}[leftmargin=1.5cm, itemsep=2pt]
+    \item Assign 6 people to 6 stations. Check-in all via admin console.
+    \item Run 3 simultaneous matches.
+    \item Test problem reveal, timer auto-submit, verdict display, and bracket advance.
+    \item Game Master: test every button in the admin console at least once.
+    \item Time the full dry run. Should complete in under 30 minutes.
+\end{itemize}
+
+% ============================================================================
+\section{Deployment Guide}
+% ============================================================================
+
+\subsection{Pre-Deployment Checklist}
+
+\begin{tcolorbox}[alertbox, title={Complete Every Item Before Going Live}]
+\begin{enumerate}[leftmargin=1cm, itemsep=3pt]
+    \item All environment variables added to \textbf{Vercel} (Settings $\to$ Environment Variables).
+    \item All environment variables added to \textbf{Railway} (Variables tab).
+    \item MongoDB Atlas: whitelist \texttt{0.0.0.0/0}. Verify connection string works from Vercel.
+    \item Groq API key: verify test call succeeds and billing is active.
+    \item Gemini API key: verify test call succeeds and billing is linked to Google Cloud project.
+    \item DNS: \texttt{promptwars.technous.in} resolves to Vercel via Cloudflare CNAME. Test: \texttt{nslookup promptwars.technous.in}.
+    \item \texttt{NEXT\_PUBLIC\_WS\_URL} in Vercel points to the Railway WebSocket server URL.
+    \item Sentry is configured and receives a test error.
+    \item Better Uptime is set up and pinging \texttt{/api/health} every 60 seconds.
+    \item Run the load test and confirm p95 $<$ 2s.
+    \item Database seeded with 12 station records and at least one test tournament config.
+    \item Problem bank loaded with all round problems (Play-In through Final).
+    \item Admin password set and tested.
+    \item Dry run completed successfully.
+\end{enumerate}
+\end{tcolorbox}
+
+\subsection{Deployment Commands}
+
+\begin{tcolorbox}[codebox]
+\small\color{white}\ttfamily
+\textcolor{codegreen}{\# Deploy to production (from main branch):}\\
+git push origin main \quad\quad\textcolor{codegreen}{\# Triggers Vercel auto-deploy}\\[0.3em]
+\textcolor{codegreen}{\# Railway auto-deploys ws-server/ on push to main.}\\
+\textcolor{codegreen}{\# Monitor deploy status in Railway dashboard.}\\[0.3em]
+\textcolor{codegreen}{\# Verify health after deploy:}\\
+curl https://promptwars.technous.in/api/health\\
+\textcolor{codegreen}{\# Expected: \{"status":"ok","db":"connected","redis":"connected"\}}
+\end{tcolorbox}
+
+% ============================================================================
+\section{Event-Day Operations Checklist}
+% ============================================================================
+
+\subsection{Day Before: March 14 (Setup)}
+
+\begin{enumerate}[leftmargin=1.5cm, itemsep=3pt]
+    \item Deploy final production build. Run health check.
+    \item Open all 12 station PCs in AI Block Lab 201. Navigate each to \texttt{promptwars.technous.in/station/S1-A} (etc.).
+    \item Verify all 12 stations show ``Awaiting assignment'' (no stale sessions).
+    \item Test projector connection on Game Master PC. Navigate to \texttt{/spectate}.
+    \item Set up admin console on Game Master laptop. Log in. Verify all controls work.
+    \item Load all problems into the problem bank via the admin UI.
+\end{enumerate}
+
+\subsection{Day Of: March 15 (Tournament Day)}
+
+\begin{table}[H]
+\centering
+\small\renewcommand{\arraystretch}{1.3}
+\begin{tabularx}{\textwidth}{>{\bfseries}l l X}
+\toprule
+Time & Action & Who \\
+\midrule
+09:30      & Registration desk opens. QR check-in active. & Registration Volunteers \\
+10:00--10:45 & Check-in all 50 participants. Assign stations for Play-In R1 (18 players). & Game Master + Desk \\
+10:50      & \textbf{Generate bracket} (Admin console $\to$ Generate). Publish to spectate screen. & Game Master \\
+10:50      & Start Wave 1 of Play-In (6 matches). Problem Reveal at 10:50 sharp. & Game Master \\
+11:30      & Round of 32 begins (check-in bye holders). & Station Supervisors \\
+12:40      & Lunch break. Bracket visible on screen. & All \\
+13:30      & Round of 16. Full protocol. & Game Master \\
+14:25      & Quarterfinals. Enable Poison Pill in admin console. & Game Master \\
+14:55      & Semi-Finals. Switch spectate to Spotlight Mode. & Technical Lead \\
+15:25      & Grand Final. Full audience. & All \\
+16:00      & Awards ceremony. Export final data (\texttt{/api/analytics/export}). & Event Coordinator \\
+\bottomrule
+\end{tabularx}
+\caption{Event Day Timeline \& Responsibilities}
+\end{table}
+
+\subsection{Emergency Procedures}
+
+\begin{table}[H]
+\centering
+\small\renewcommand{\arraystretch}{1.3}
+\begin{tabularx}{\textwidth}{>{\bfseries}l X X}
+\toprule
+Incident & Immediate Action & Recovery \\
+\midrule
+Internet outage        & Activate 4G/5G hotspot immediately. Connect all station PCs to hotspot. & Platform continues uninterrupted. All data is in the cloud (MongoDB/Redis). \\
+Station PC crashes     & Game Master: Admin Console $\to$ Reassign player to a standby laptop. & Under 2 minutes. Session transfers automatically. \\
+Groq API error         & Check Vercel logs. Try re-triggering execution. Platform auto-falls back to Llama 3.1 8B. & No manual action needed. Log the incident. \\
+Gemini Judge fails     & Fallback to GPT-4o-mini triggers automatically after 2 retries. & Game Master is notified on admin console. Verdict arrives within 30 seconds. \\
+Wrong verdict          & Game Master: Override panel $\to$ Select match $\to$ Set correct winner. & Bracket updates instantly. All participants notified via WebSocket. \\
+Platform is down (503) & Technical Lead: Check Vercel and Railway dashboards. & Redeploy from last stable commit. ETA: 3--5 minutes. Pause wave during outage. \\
+\bottomrule
+\end{tabularx}
+\caption{Emergency Response Procedures}
+\end{table}
+
+% ============================================================================
+\section{Complete Technology Stack Reference}
+% ============================================================================
+
+\begin{table}[H]
+\centering
+\small\renewcommand{\arraystretch}{1.3}
+\begin{tabularx}{\textwidth}{>{\bfseries}l l X}
+\toprule
+Layer & Technology & Purpose \\
+\midrule
+\multicolumn{3}{l}{\textcolor{sectionblue}{\textbf{Frontend}}} \\
+\midrule
+Framework      & Next.js 14 App Router   & Full-stack React with file-based routing \\
+Language       & TypeScript 5            & Type safety across all frontend code \\
+Styling        & Tailwind CSS + Shadcn   & Utility CSS + accessible components \\
+Code Editor    & Monaco Editor           & In-browser prompt sandbox (VS Code engine) \\
+State          & Zustand + React Query   & Client state + server state management \\
+Real-Time      & Socket.IO Client        & WebSocket for live match events \\
+Animations     & Framer Motion           & Smooth bracket and verdict transitions \\
+Charts         & Recharts                & Analytics visualisations \\
+\midrule
+\multicolumn{3}{l}{\textcolor{successgreen}{\textbf{Backend (Next.js API Routes)}}} \\
+\midrule
+Runtime        & Node.js 20 LTS          & Server-side JavaScript runtime \\
+WebSocket      & Socket.IO + Railway     & Persistent WebSocket process (separate from Vercel) \\
+ORM            & Mongoose 8              & MongoDB schema + queries \\
+Validation     & Zod 3                   & Request/response schema validation \\
+Jobs           & BullMQ + Redis          & Background tasks (judge eval, export) \\
+Auth           & iron-session            & Encrypted station session cookies \\
+\midrule
+\multicolumn{3}{l}{\textcolor{monggreen}{\textbf{Data Layer}}} \\
+\midrule
+Database       & MongoDB Atlas M10       & Document store. 10 GB, 99.9\% SLA \\
+Cache          & Upstash Redis           & Timer state, rate limits, pub/sub events \\
+Storage        & Cloudflare R2           & Match logs and exports \\
+\midrule
+\multicolumn{3}{l}{\textcolor{infopurple}{\textbf{AI Layer}}} \\
+\midrule
+Battle Model   & Llama 3.3 70B (Groq)    & Frozen inference, identical for all \\
+Judge Model    & Gemini 2.0 Flash        & Automated JSON verdict \\
+Fallback Judge & GPT-4o-mini (OpenRouter) & Backup on primary failure \\
+Test Model     & Llama 3.1 8B (Groq)     & Lightweight model for test runs \\
+\midrule
+\multicolumn{3}{l}{\textcolor{darktext}{\textbf{DevOps}}} \\
+\midrule
+Hosting        & Vercel Pro              & Next.js CDN + serverless API Routes \\
+WebSocket Host & Railway Pro             & Persistent Socket.IO process \\
+DNS + CDN      & Cloudflare Pro          & DNS, WAF, DDoS protection \\
+CI/CD          & GitHub Actions          & Lint, typecheck, deploy on push \\
+Monitoring     & Sentry + Better Uptime  & Errors + uptime health checks \\
+\bottomrule
+\end{tabularx}
+\caption{Complete Technology Stack}
+\end{table}
+
+% ============================================================================
+\section{Budget Summary for Developers}
+% ============================================================================
+
+\begin{table}[H]
+\centering
+\small\renewcommand{\arraystretch}{1.3}
+\begin{tabularx}{\textwidth}{>{\bfseries}l X r}
+\toprule
+Service & Plan / Usage & INR (2 months) \\
+\midrule
+Vercel Pro              & \$20/mo $\times$ 2 = \$40          & 3,400 \\
+Railway Pro             & \$20/mo $\times$ 2 = \$40          & 3,400 \\
+MongoDB Atlas M10       & \$57/mo $\times$ 2 = \$114         & 9,700 \\
+Upstash Redis           & \$10/mo est. $\times$ 2 = \$20     & 1,700 \\
+Cloudflare Pro          & \$20/mo $\times$ 2 = \$40          & 3,400 \\
+Groq Battle AI          & \$0.59/M input + \$0.79/M out, 5$\times$ buffer & 2,125 \\
+Gemini Judge AI         & \$0.10/M input + \$0.40/M out, 10$\times$ buffer & 1,275 \\
+Fallback Judge          & \$0.15/M input (GPT-4o-mini), reserve & 850 \\
+Domain Registration     & Cloudflare Registrar, 1 year       & 1,275 \\
+\midrule
+\textbf{Total}          & & \textbf{INR 27,125} \\
+\textit{(rounded)}      & & \textit{\textbf{$\approx$ INR 28,000}} \\
+\bottomrule
+\end{tabularx}
+\caption{Developer Infrastructure Budget (All Paid Tiers, 2-Month Window)}
+\end{table}
+
+\vfill
+\begin{center}
+\textcolor{accentgold}{\rule{0.55\textwidth}{1.5pt}}\\[0.4cm]
+{\large\bfseries\textcolor{primaryblue}{``Build the Arena. Let the Prompts Decide.''}}\\[0.3cm]
+\textcolor{gray}{\rule{0.3\textwidth}{0.5pt}}\\[0.3cm]
+{\small\textcolor{gray}{\textit{This document is for internal use by the Engineering Team only.}}}\\
+{\small\textcolor{gray}{\textit{GLITCH Tech Fest 2026 --- The Technous Club, Shoolini University.}}}
+\end{center}
+
+\end{document}

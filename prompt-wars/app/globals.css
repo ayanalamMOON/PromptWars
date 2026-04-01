@@ -1,0 +1,18 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+    --primary-blue: #1A3C6E;
+    --accent-gold: #D4A843;
+    --section-blue: #2C5F9E;
+    --success-green: #27AE60;
+    --alert-red: #C0392B;
+    --warn-amber: #F39C12;
+    --info-purple: #8E44AD;
+}
+
+body {
+    font-family: system-ui, -apple-system, sans-serif;
+    color: #2C2C2C;
+}
