@@ -1,7 +1,21 @@
 {
     "name": "prompt-wars",
+    "description": "PromptWars is a local-first AI prompt engineering tournament platform built with Next.js and Ollama.",
     "version": "0.1.0",
     "private": true,
+    "homepage": "https://github.com/ayanalamMOON/PromptWars",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/ayanalamMOON/PromptWars.git"
+    },
+    "keywords": [
+        "promptwars",
+        "ollama",
+        "nextjs",
+        "llm",
+        "prompt-engineering",
+        "ai-tournament"
+    ],
     "scripts": {
         "dev": "next dev",
         "dev:web": "next dev",
