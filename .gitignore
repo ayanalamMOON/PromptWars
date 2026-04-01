@@ -1,1 +1,14 @@
-node_modules/\n.next/\n*.exe\ndist/\n.env
+ules/\n.next/\n*.exe\ndist/\n.envnode_mod
+ules/
+.next/
+*.exe
+dist/
+.env
+node_modules/
+*.log
+.DS_Store
+.vscode/
+.idea/
+*.swp
+build/
+coverage/
